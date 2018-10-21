@@ -5,7 +5,7 @@ import authApi, {
   clearAuthHeader,
 } from '@/apis/auth';
 import {
-  AUTH_REQUEST,
+  AUTH_LOGIN,
   AUTH_SIGNUP,
   AUTH_ERROR,
   AUTH_SUCCESS,
@@ -23,8 +23,8 @@ const getters = {
 };
 
 const actions = {
-  [AUTH_REQUEST]: ({ commit }, userCredentials) => new Promise((resolve, reject) => {
-    commit(AUTH_REQUEST);
+  [AUTH_LOGIN]: ({ commit }, userCredentials) => new Promise((resolve, reject) => {
+    commit(AUTH_LOGIN);
     authApi.post('jwt/token-obtain', userCredentials).then((resp) => {
       localStorage.setItem('user-token', resp.token);
       setAuthHeader(resp.token);
@@ -38,8 +38,7 @@ const actions = {
     });
   }),
   [AUTH_SIGNUP]: ({ commit }, userData) => new Promise((resolve, reject) => {
-    commit(AUTH_REQUEST);
-    authApi.post('users/create', userData).then((resp) => {
+    authApi.post('users', userData).then((resp) => {
       resolve(resp);
     }).catch((err) => {
       reject(err);
@@ -54,7 +53,7 @@ const actions = {
 };
 
 const mutations = {
-  [AUTH_REQUEST]: (state) => {
+  [AUTH_LOGIN]: (state) => {
     state.status = 'loading';
   },
   [AUTH_SUCCESS]: (state, resp) => {
@@ -65,6 +64,7 @@ const mutations = {
     state.status = 'error';
   },
   [AUTH_LOGOUT]: (state) => {
+    state.status = '';
     state.token = '';
   },
 };
