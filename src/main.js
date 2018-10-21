@@ -1,7 +1,10 @@
 import Vue from 'vue';
+import '@/plugins/axios';
+import '@/plugins/element';
+import '@/plugins/font-aswome';
 import App from './App.vue';
 import router from './router';
-import store from './store';
+import store from './store/index';
 
 Vue.config.productionTip = false;
 
