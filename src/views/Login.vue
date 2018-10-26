@@ -34,16 +34,17 @@ export default {
     loginButtonDisable() {
       return !this.username || !this.password;
     },
+    nextUrlName() {
+      return this.$route.query.next || homeRoute.name;
+    },
   },
   methods: {
     login() {
       const { username, password } = this;
       this.$store
-        .dispatch(AUTH_LOGIN, { username, password })
-        .then(() => {
-          this.$router.push(homeRoute.path);
-        })
-        .catch((error) => {
+        .dispatch(AUTH_LOGIN, { username, password }).then(() => {
+          this.$router.push({ name: this.nextUrlName });
+        }).catch((error) => {
           console.error(error);
         });
     },

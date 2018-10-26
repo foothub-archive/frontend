@@ -1,5 +1,4 @@
 /* eslint-disable no-param-reassign */
-import router, { homeRoute } from '@/router';
 import authApi, {
   setAuthHeader,
   clearAuthHeader,
@@ -26,9 +25,10 @@ const actions = {
   [AUTH_LOGIN]: ({ commit }, userCredentials) => new Promise((resolve, reject) => {
     commit(AUTH_LOGIN);
     authApi.post('jwt/token-obtain', userCredentials).then((resp) => {
-      localStorage.setItem('user-token', resp.token);
-      setAuthHeader(resp.token);
-      commit(AUTH_SUCCESS, resp);
+      const { token } = resp.data;
+      localStorage.setItem('user-token', token);
+      setAuthHeader(token);
+      commit(AUTH_SUCCESS, token);
       // dispatch(USER_REQUEST);
       resolve(resp);
     }).catch((err) => {
@@ -47,7 +47,6 @@ const actions = {
   [AUTH_LOGOUT]: ({ commit }) => new Promise((resolve) => {
     commit(AUTH_LOGOUT);
     localStorage.removeItem('user-token');
-    router.push(homeRoute.path);
     resolve();
   }),
 };
@@ -56,9 +55,9 @@ const mutations = {
   [AUTH_LOGIN]: (state) => {
     state.status = 'loading';
   },
-  [AUTH_SUCCESS]: (state, resp) => {
+  [AUTH_SUCCESS]: (state, token) => {
     state.status = 'success';
-    state.token = resp.token;
+    state.token = token;
   },
   [AUTH_ERROR]: (state) => {
     state.status = 'error';
