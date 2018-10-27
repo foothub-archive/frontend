@@ -38,7 +38,7 @@ const actions = {
       reject(err);
     });
   }),
-  [AUTH_SIGNUP]: ({ commit }, userData) => new Promise((resolve, reject) => {
+  [AUTH_SIGNUP]: userData => new Promise((resolve, reject) => {
     authApi.post('users', userData).then((resp) => {
       resolve(resp);
     }).catch((err) => {
