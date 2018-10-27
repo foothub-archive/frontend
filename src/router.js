@@ -27,7 +27,7 @@ export const registerRoute = {
   path: '/register',
   name: 'register',
   component: Register,
-  meta: { requiresAuth: true },
+  meta: { redirectsIfAuth: true },
 };
 
 export const routes = [
@@ -44,14 +44,22 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (store.getters.isAuthenticated) {
-      console.log(to);
+    if (!store.getters.isAuthenticated) {
       next({
         name: loginRoute.name,
         query: { next: to.name },
       });
     }
   }
+
+  if (to.matched.some(record => record.meta.redirectsIfAuth)) {
+    if (store.getters.isAuthenticated) {
+      next({
+        name: homeRoute.name,
+      });
+    }
+  }
+
   next();
 });
 

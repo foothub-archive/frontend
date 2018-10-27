@@ -5,10 +5,11 @@ import authApi, {
 } from '@/apis/auth';
 import {
   AUTH_LOGIN,
-  AUTH_SIGNUP,
-  AUTH_ERROR,
-  AUTH_SUCCESS,
   AUTH_LOGOUT,
+  AUTH_SIGNUP,
+  AUTH_REQUEST,
+  AUTH_SUCCESS,
+  AUTH_ERROR,
 } from '@/store/actions/auth';
 
 const theState = {
@@ -23,7 +24,7 @@ const getters = {
 
 const actions = {
   [AUTH_LOGIN]: ({ commit }, userCredentials) => new Promise((resolve, reject) => {
-    commit(AUTH_LOGIN);
+    commit(AUTH_REQUEST);
     authApi.post('jwt/token-obtain', userCredentials).then((resp) => {
       const { token } = resp.data;
       localStorage.setItem('user-token', token);
@@ -52,7 +53,7 @@ const actions = {
 };
 
 const mutations = {
-  [AUTH_LOGIN]: (state) => {
+  [AUTH_REQUEST]: (state) => {
     state.status = 'loading';
   },
   [AUTH_SUCCESS]: (state, token) => {

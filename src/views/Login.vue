@@ -41,12 +41,11 @@ export default {
   methods: {
     login() {
       const { username, password } = this;
-      this.$store
-        .dispatch(AUTH_LOGIN, { username, password }).then(() => {
-          this.$router.push({ name: this.nextUrlName });
-        }).catch((error) => {
-          console.error(error);
-        });
+      this.$store.dispatch(AUTH_LOGIN, { username, password }).then(() => {
+        this.$router.push({ name: this.nextUrlName });
+      }).catch((error) => {
+        console.error(error);
+      });
     },
   },
 };
