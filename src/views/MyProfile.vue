@@ -33,10 +33,10 @@ export default {
       return this.$store.getters.isMyProfileLoaded;
     },
     email() {
-      return 'my-email';
+      return this.$store.getters.user('email');
     },
     username() {
-      return 'my-username';
+      return this.$store.getters.user('username');
     },
     myName: {
       get() {
