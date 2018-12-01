@@ -11,7 +11,7 @@
 
 <script>
 import { loginRoute } from '@/router';
-import { AUTH_LOGOUT } from '@/store/actions/auth';
+import { AUTH_LOGOUT, AUTH_REQUEST } from '@/store/actions/auth';
 
 export default {
   name: 'home',
@@ -23,6 +23,9 @@ export default {
         console.error(error);
       });
     },
+  },
+  mounted() {
+    // this.$store.dispatch(AUTH_REQUEST);
   },
 };
 </script>

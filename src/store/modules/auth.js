@@ -3,6 +3,7 @@ import authApi, {
   setAuthHeader,
   clearAuthHeader,
 } from '@/apis/auth';
+
 import {
   AUTH_LOGIN,
   AUTH_LOGOUT,
@@ -28,7 +29,7 @@ const actions = {
     authApi.post('jwt/token-obtain', userCredentials).then((resp) => {
       const { token } = resp.data;
       localStorage.setItem('user-token', token);
-      setAuthHeader(token);
+      setAuthHeader();
       commit(AUTH_SUCCESS, token);
       // dispatch(USER_REQUEST);
       resolve(resp);

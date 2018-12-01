@@ -1,20 +1,14 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-import Home from '@/views/Home.vue';
 import Login from '@/views/Login.vue';
 import Register from '@/views/Register.vue';
+import Home from '@/views/Home.vue';
+import MyProfile from '@/views/MyProfile.vue';
 
 import store from '@/store';
 
 Vue.use(Router);
-
-export const homeRoute = {
-  path: '/',
-  name: 'home',
-  component: Home,
-  meta: { requiresAuth: true },
-};
 
 export const loginRoute = {
   path: '/login',
@@ -30,17 +24,31 @@ export const registerRoute = {
   meta: { redirectsIfAuth: true },
 };
 
+export const homeRoute = {
+  path: '/',
+  name: 'home',
+  component: Home,
+  meta: { requiresAuth: true },
+};
+
+export const myProfileRoute = {
+  path: '/me',
+  name: 'me',
+  component: MyProfile,
+  meta: { requiresAuth: true },
+};
+
 export const routes = [
-  homeRoute,
   loginRoute,
   registerRoute,
+  homeRoute,
+  myProfileRoute,
 ];
 
 const router = new Router({
   mode: 'history',
   routes,
 });
-
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
@@ -59,7 +67,6 @@ router.beforeEach((to, from, next) => {
       });
     }
   }
-
   next();
 });
 
