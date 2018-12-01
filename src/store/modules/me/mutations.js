@@ -4,6 +4,7 @@ import {
   ME_REQUEST,
   ME_SUCCESS,
   ME_ERROR,
+  ME_NAME,
 } from '@/store/actions/me';
 
 
@@ -11,12 +12,14 @@ export default {
   [ME_REQUEST]: (state) => {
     state.status = 'loading';
   },
-  [ME_SUCCESS]: (state, myProfile) => {
+  [ME_SUCCESS]: (state, data) => {
     state.status = 'success';
-    state.myProfile = myProfile;
+    state.data = data;
   },
   [ME_ERROR]: (state) => {
     state.status = 'error';
-    state.myProfile = undefined;
+  },
+  [ME_NAME]: (state, name) => {
+    state.data.name = name;
   },
 };

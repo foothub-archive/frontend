@@ -4,18 +4,27 @@
       My Profile
     </div>
     <el-form v-if="isMyProfileLoaded" label-width="120px">
+    <el-form-item label="Email">
+        <el-input v-model="email" :disabled="true"></el-input>
+    </el-form-item>
+    <el-form-item label="Username">
+        <el-input v-model="username" :disabled="true"></el-input>
+    </el-form-item>
       <el-form-item label="Name">
-          <el-input v-model="myName"></el-input>
-      </el-form-item>
+        <el-input v-model="myName"></el-input>
+    </el-form-item>
     </el-form>
     <el-button type="primary" @click="refresh()">
       Refresh
+    </el-button>
+    <el-button type="primary" @click="save()">
+      Save
     </el-button>
   </div>
 </template>
 
 <script>
-import { RETRIEVE_ME } from '@/store/actions/me';
+import { RETRIEVE_ME, UPDATE_ME, ME_NAME } from '@/store/actions/me';
 
 export default {
   name: 'home',
@@ -23,8 +32,19 @@ export default {
     isMyProfileLoaded() {
       return this.$store.getters.isMyProfileLoaded;
     },
-    myName() {
-      return this.$store.getters.myProfile('name');
+    email() {
+      return 'my-email';
+    },
+    username() {
+      return 'my-username';
+    },
+    myName: {
+      get() {
+        return this.$store.getters.myProfile('name');
+      },
+      set(value) {
+        this.$store.commit(ME_NAME, value);
+      },
     },
   },
   mounted() {
@@ -35,6 +55,9 @@ export default {
   methods: {
     refresh() {
       this.$store.dispatch(RETRIEVE_ME);
+    },
+    save() {
+      this.$store.dispatch(UPDATE_ME, this.$store.state.me.data);
     },
   },
 };

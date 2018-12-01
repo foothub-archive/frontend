@@ -1,4 +1,4 @@
 export default {
-  myProfile: undefined,
+  data: undefined,
   status: '',
 };
