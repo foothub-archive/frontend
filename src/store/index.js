@@ -1,10 +1,8 @@
-import Vue from 'vue';
 import Vuex from 'vuex';
-import auth from './modules/auth';
 import { AUTH_VERIFY } from './actions/auth';
+import auth from './modules/auth';
 import me from './modules/me';
-
-Vue.use(Vuex);
+import friends from './modules/friends';
 
 const debug = process.env.NODE_ENV !== 'production';
 
@@ -12,6 +10,7 @@ const store = new Vuex.Store({
   modules: {
     auth,
     me,
+    friends,
   },
   strict: debug,
 });

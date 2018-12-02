@@ -1,14 +1,11 @@
-import Vue from 'vue';
 import Router from 'vue-router';
+import store from '@/store';
 
 import Login from '@/views/Login.vue';
 import Register from '@/views/Register.vue';
 import Home from '@/views/Home.vue';
 import MyProfile from '@/views/MyProfile.vue';
-
-import store from '@/store';
-
-Vue.use(Router);
+import Friends from '@/views/Friends.vue';
 
 export const loginRoute = {
   path: '/login',
@@ -38,11 +35,19 @@ export const myProfileRoute = {
   meta: { requiresAuth: true },
 };
 
+export const FriendsRoute = {
+  path: '/friends',
+  name: 'friends',
+  component: Friends,
+  // meta: { requiresAuth: true },
+};
+
 export const routes = [
   loginRoute,
   registerRoute,
   homeRoute,
   myProfileRoute,
+  FriendsRoute,
 ];
 
 const router = new Router({
