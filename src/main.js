@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import '@/plugins/vuex';
 import '@/plugins/vue-router';
-import '@/plugins/axios';
 import '@/plugins/element';
 import '@/plugins/font-aswome';
 import App from './App.vue';

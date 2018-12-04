@@ -1,5 +1,4 @@
 /* eslint-disable no-param-reassign */
-import { setAuthHeader, clearAuthHeader } from '@/apis/auth';
 
 import {
   AUTH_REQUEST, AUTH_SUCCESS, AUTH_ERROR,
@@ -20,12 +19,10 @@ export default {
   [NEW_TOKEN]: (state, token) => {
     state.token = token;
     localStorage.setItem('user-token', token);
-    setAuthHeader();
   },
   [CLEAR_TOKEN]: (state) => {
     state.token = '';
     localStorage.removeItem('user-token');
-    clearAuthHeader();
   },
   [USER_DATA]: (state, data) => {
     state.data = data;

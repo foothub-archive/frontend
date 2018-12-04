@@ -1,4 +1,4 @@
-import coreApi from '@/apis/core';
+import { coreApi } from '@/apis/index';
 
 import {
   ME_REQUEST,
