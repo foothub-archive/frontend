@@ -2,61 +2,86 @@
   <el-row type="flex" class="row-bg" justify="space-between">
     <el-col :span="6"></el-col>
     <el-col :span="12">
-      <div>
         <el-row type="flex" class="row-bg" justify="space-between">
           <el-col :span="6"></el-col>
           <el-col :span="12">
-            <el-input v-model="search" debounce="600" placeholder="Type to search"/>
+            <el-input v-model="search" @input="debouncedSearch" placeholder="Type to search"/>
           </el-col>
           <el-col :span="6"></el-col>
         </el-row>
-        <el-table v-if="data" :data="data" style="width: 100%">
+        <br/>
+        <el-table
+                v-if="data" :data="data" v-loading.body="loading"
+                element-loading-text="Loading..." element-loading-spinner="el-icon-loading"
+                style="width: 100%">
           <el-table-column label="Name" prop="friend.name">
           </el-table-column>
           <el-table-column align="right">
             <template slot-scope="scope">
-              <el-button size="mini" @click="details(scope.$index, scope.row)">
+              <el-button size="mini" @click="goToDetails(scope.$index)">
                 Details
               </el-button>
-              <el-button size="mini" type="danger" @click="delete(scope.$index, scope.row)">
+              <el-button size="mini" type="danger" @click="handleDelete(scope.$index)">
                 Delete
               </el-button>
             </template>
           </el-table-column>
         </el-table>
-      </div>
     </el-col>
     <el-col :span="6"></el-col>
   </el-row>
 </template>
 
 <script>
-import { LIST_FRIENDS } from '@/store/actions/friends';
+import { LIST_FRIENDS, DESTROY_FRIEND, FRIENDS_SEARCH } from '@/store/actions/friends';
 
 export default {
   data() {
     return {
-      search: '',
+      searchTimeout: undefined,
+      debounceTimer: 700, // ms
     };
   },
   computed: {
     data() {
-      console.warn(this.$store.state.friends);
       return this.$store.getters.friendResults;
+    },
+    search: {
+      get() {
+        return this.$store.state.friends.search;
+      },
+      set(value) {
+        this.$store.commit(FRIENDS_SEARCH, value);
+      },
+    },
+    loading() {
+      return this.$store.getters.friendsAreLoading;
     },
   },
   methods: {
-    handleEdit(index, row) {
-      console.log(this.tableData[index].name);
-      console.log(index, row);
+    loadData() {
+      this.$store.dispatch(LIST_FRIENDS);
     },
-    handleDelete(index, row) {
-      console.log(index, row);
+    goToDetails(index) {
+      console.log(index);
+    },
+    handleDelete(index) {
+      this.$store.dispatch(DESTROY_FRIEND, this.data[index].id).then(() => {
+        this.loadData();
+      });
+    },
+    doSearch() {
+      this.loadData();
+    },
+    debouncedSearch() {
+      clearTimeout(this.searchTimeout);
+      this.searchTimeout = setTimeout(() => {
+        this.doSearch();
+      }, this.debounceTimer);
     },
   },
   mounted() {
-    console.log('HEHEH', LIST_FRIENDS);
-    this.$store.dispatch(LIST_FRIENDS);
+    this.loadData();
   },
 };
 </script>

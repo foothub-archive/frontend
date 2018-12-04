@@ -6,6 +6,7 @@ import {
   FRIEND_SUCCESS,
   FRIENDS_ERROR,
   FRIEND_ERROR,
+  FRIENDS_SEARCH,
 } from '@/store/actions/friends';
 
 export default {
@@ -24,5 +25,8 @@ export default {
   },
   [FRIEND_ERROR]: (state) => {
     state.status = 'error';
+  },
+  [FRIENDS_SEARCH]: (state, search) => {
+    state.search = search;
   },
 };

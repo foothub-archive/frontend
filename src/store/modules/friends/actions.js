@@ -12,9 +12,9 @@ import {
 } from '@/store/actions/friends';
 
 export default {
-  [LIST_FRIENDS]: ({ commit }) => new Promise((resolve, reject) => {
+  [LIST_FRIENDS]: ({ getters, commit }) => new Promise((resolve, reject) => {
     commit(FRIENDS_REQUEST);
-    coreApi.get('friends').then((resp) => {
+    coreApi.get(`friends${getters.queryParams}`).then((resp) => {
       commit(FRIENDS_SUCCESS, resp.data);
       resolve(resp);
     }).catch((err) => {
