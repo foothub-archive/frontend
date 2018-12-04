@@ -1,7 +1,5 @@
 import axios from 'axios';
 
-axios.defaults.headers.post['Content-Type'] = 'application/json';
-
 // ensure that we always use the latest saved user-token
 function preRequestAuth(config) {
   const token = localStorage.getItem('user-token');
