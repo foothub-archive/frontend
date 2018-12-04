@@ -1,19 +1,29 @@
 <template>
-  <div>
-    <el-input type="email" placeholder="email" v-model="email"></el-input>
-    <el-input placeholder="username" v-model="username"></el-input>
-    <el-input type="password" placeholder="password" v-model="password"></el-input>
-    <el-button type="primary" :disabled="createButtonDisable" @click="createAccount()">
-      Create Account
-      <font-awesome-icon icon="user-plus" />
-    </el-button>
-    <el-alert
+    <div>
+        <el-input 
+            v-model="email" 
+            type="email" 
+            placeholder="email"/>
+        <el-input 
+            v-model="username" 
+            placeholder="username"/>
+        <el-input 
+            v-model="password" 
+            type="password" 
+            placeholder="password"/>
+        <el-button 
+            :disabled="createButtonDisable" 
+            type="primary" 
+            @click="createAccount()">
+            Create Account
+            <font-awesome-icon icon="user-plus" />
+        </el-button>
+        <el-alert
             v-if="failedCreate"
             title="Unable to create account"
             type="error"
-            show-icon>
-    </el-alert>
-  </div>
+            show-icon/>
+    </div>
 </template>
 
 <script>
@@ -21,7 +31,7 @@ import { loginRoute } from '@/router';
 import { CREATE_USER } from '@/store/actions/auth';
 
 export default {
-  name: 'resgiter',
+  name: 'Resgiter',
   data() {
     return {
       email: undefined,

@@ -4,12 +4,14 @@ module.exports = {
     node: true,
   },
   extends: [
-    'plugin:vue/essential',
-    '@vue/airbnb',
+    "eslint:recommended",
+    "plugin:vue/recommended"
   ],
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    "indent": ["error", 2],
+    "vue/html-indent": ["error", 4],
   },
   parserOptions: {
     parser: 'babel-eslint',

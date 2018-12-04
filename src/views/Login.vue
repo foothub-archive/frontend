@@ -1,18 +1,25 @@
 <template>
-  <div>
-    <el-input placeholder="username" v-model="username"></el-input>
-    <el-input type="password" placeholder="password" v-model="password"></el-input>
-    <el-button type="primary" :disabled="loginButtonDisable" @click="login()">
-      Login
-      <font-awesome-icon icon="user" />
-    </el-button>
-    <el-alert
+    <div>
+        <el-input 
+            v-model="username" 
+            placeholder="username"/>
+        <el-input 
+            v-model="password" 
+            type="password" 
+            placeholder="password"/>
+        <el-button 
+            :disabled="loginButtonDisable" 
+            type="primary" 
+            @click="login()">
+            Login
+            <font-awesome-icon icon="user" />
+        </el-button>
+        <el-alert
             v-if="failedLogin"
             title="Unable to log in with provided credentials"
             type="error"
-            show-icon>
-    </el-alert>
-  </div>
+            show-icon/>
+    </div>
 </template>
 
 <script>
@@ -20,7 +27,7 @@ import { homeRoute } from '@/router';
 import { AUTH_LOGIN } from '@/store/actions/auth';
 
 export default {
-  name: 'login',
+  name: 'Login',
   data() {
     return {
       username: undefined,

@@ -21,6 +21,6 @@ export const coreApi = axios.create({
   timeout,
 });
 
-// use interceptors on instance (on default does not work)
+// use interceptors on each instance (on default does not work)
 authApi.interceptors.request.use(preRequestAuth, undefined);
 coreApi.interceptors.request.use(preRequestAuth, undefined);

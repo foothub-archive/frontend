@@ -1,35 +1,53 @@
 <template>
-  <el-row type="flex" class="row-bg" justify="space-between">
-    <el-col :span="6"></el-col>
-    <el-col :span="12">
-        <el-row type="flex" class="row-bg" justify="space-between">
-          <el-col :span="6"></el-col>
-          <el-col :span="12">
-            <el-input v-model="search" @input="debouncedSearch" placeholder="Type to search"/>
-          </el-col>
-          <el-col :span="6"></el-col>
-        </el-row>
-        <br/>
-        <el-table
-                v-if="data" :data="data" v-loading.body="loading"
-                element-loading-text="Loading..." element-loading-spinner="el-icon-loading"
+    <el-row
+        type="flex"
+        class="row-bg"
+        justify="space-between">
+        <el-col :span="6"/>
+        <el-col :span="12">
+            <el-row
+                type="flex"
+                class="row-bg"
+                justify="space-between">
+                <el-col :span="6"/>
+                <el-col :span="12">
+                    <el-input
+                        v-model="search"
+                        placeholder="Type to search"
+                        @input="debouncedSearch"/>
+                </el-col>
+                <el-col :span="6"/>
+            </el-row>
+            <br>
+            <el-table
+                v-loading.body="loading"
+                v-if="data"
+                :data="data"
+                element-loading-text="Loading..."
+                element-loading-spinner="el-icon-loading"
                 style="width: 100%">
-          <el-table-column label="Name" prop="friend.name">
-          </el-table-column>
-          <el-table-column align="right">
-            <template slot-scope="scope">
-              <el-button size="mini" @click="goToDetails(scope.$index)">
-                Details
-              </el-button>
-              <el-button size="mini" type="danger" @click="handleDelete(scope.$index)">
-                Delete
-              </el-button>
-            </template>
-          </el-table-column>
-        </el-table>
-    </el-col>
-    <el-col :span="6"></el-col>
-  </el-row>
+                <el-table-column
+                    label="Name"
+                    prop="friend.name"/>
+                <el-table-column align="right">
+                    <template slot-scope="scope">
+                        <el-button
+                            size="mini"
+                            @click="goToDetails(scope.$index)">
+                            Details
+                        </el-button>
+                        <el-button
+                            size="mini"
+                            type="danger"
+                            @click="handleDelete(scope.$index)">
+                            Delete
+                        </el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+        </el-col>
+        <el-col :span="6"/>
+    </el-row>
 </template>
 
 <script>
@@ -58,6 +76,9 @@ export default {
       return this.$store.getters.friendsAreLoading;
     },
   },
+  mounted() {
+    this.loadData();
+  },
   methods: {
     loadData() {
       this.$store.dispatch(LIST_FRIENDS);
@@ -66,9 +87,10 @@ export default {
       console.log(index);
     },
     handleDelete(index) {
-      this.$store.dispatch(DESTROY_FRIEND, this.data[index].id).then(() => {
-        this.loadData();
-      });
+      this.$store.dispatch(DESTROY_FRIEND, this.data[index].id)
+        .then(() => {
+          this.loadData();
+        });
     },
     doSearch() {
       this.loadData();
@@ -79,9 +101,6 @@ export default {
         this.doSearch();
       }, this.debounceTimer);
     },
-  },
-  mounted() {
-    this.loadData();
   },
 };
 </script>
