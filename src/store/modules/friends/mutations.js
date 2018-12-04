@@ -29,4 +29,7 @@ export default {
   [FRIENDS_SEARCH]: (state, search) => {
     state.search = search;
   },
+  FRIENDS_CURRENT_PAGE: (state, page) => {
+    state.data.current = page;
+  },
 };

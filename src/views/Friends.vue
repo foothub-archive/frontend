@@ -45,6 +45,13 @@
                     </template>
                 </el-table-column>
             </el-table>
+            <el-pagination
+                :current-page="paginationCurrentPage"
+                :page-size="paginationPageSize"
+                :total="paginationCount"
+                :disabled="loading"
+                layout="prev, pager, next"
+                @current-change="handlePaginationChange"/>
         </el-col>
         <el-col :span="6"/>
     </el-row>
@@ -62,14 +69,29 @@ export default {
   },
   computed: {
     data() {
-      return this.$store.getters.friendResults;
+      return this.$store.state.friends.data.results;
+    },
+    paginationCurrentPage: {
+      get() {
+        return this.$store.state.friends.data.current;
+      },
+      set(value) {
+        return this.$store.commit('FRIENDS_CURRENT_PAGE', value);
+      },
+    },
+    paginationCount() {
+      return this.$store.state.friends.data.count;
+    },
+    paginationPageSize() {
+      return 14;
     },
     search: {
       get() {
         return this.$store.state.friends.search;
       },
       set(value) {
-        this.$store.commit(FRIENDS_SEARCH, value);
+        console.log('on set', value);
+        this.debouncedSearch(value);
       },
     },
     loading() {
@@ -93,13 +115,20 @@ export default {
         });
     },
     doSearch() {
+      this.paginationCurrentPage = 1;
+      console.log('search?', this.search);
       this.loadData();
     },
-    debouncedSearch() {
+    debouncedSearch(value) {
       clearTimeout(this.searchTimeout);
       this.searchTimeout = setTimeout(() => {
+        this.$store.commit(FRIENDS_SEARCH, value);
         this.doSearch();
       }, this.debounceTimer);
+    },
+    handlePaginationChange(page) {
+      this.paginationCurrentPage = page;
+      this.loadData();
     },
   },
 };

@@ -14,7 +14,8 @@ import {
 export default {
   [LIST_FRIENDS]: ({ getters, commit }) => new Promise((resolve, reject) => {
     commit(FRIENDS_REQUEST);
-    coreApi.get(`friends${getters.queryParams}`).then((resp) => {
+    console.warn(getters.queryParams);
+    coreApi.get(`friends`, {params: getters.queryParams}).then((resp) => {
       commit(FRIENDS_SUCCESS, resp.data);
       resolve(resp);
     }).catch((err) => {
