@@ -27,8 +27,10 @@
                 element-loading-spinner="el-icon-loading"
                 style="width: 100%">
                 <el-table-column
-                    label="Name"
-                    prop="friend.name"/>
+                    v-for="(header,index) of headers"
+                    :prop="header.prop"
+                    :label="header.label"
+                    :key="index"/>
                 <el-table-column align="right">
                     <template slot-scope="scope">
                         <el-button
@@ -63,6 +65,12 @@ import { LIST_FRIENDS, DESTROY_FRIEND, FRIENDS_SEARCH } from '@/store/actions/fr
 export default {
   data() {
     return {
+      headers: [
+        {
+          prop: 'friend.name',
+          label: 'Name',
+        },
+      ],
       searchTimeout: undefined,
       debounceTimer: 700, // ms
     };
