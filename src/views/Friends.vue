@@ -27,7 +27,7 @@
                 element-loading-spinner="el-icon-loading"
                 style="width: 100%">
                 <el-table-column
-                    v-for="(header,index) of headers"
+                    v-for="(header,index) in headers"
                     :prop="header.prop"
                     :label="header.label"
                     :key="index"/>
@@ -61,6 +61,7 @@
 
 <script>
 import { LIST_FRIENDS, DESTROY_FRIEND, FRIENDS_SEARCH } from '@/store/actions/friends';
+import { friendRoute } from '@/router';
 
 export default {
   data() {
@@ -98,7 +99,6 @@ export default {
         return this.$store.state.friends.search;
       },
       set(value) {
-        console.log('on set', value);
         this.debouncedSearch(value);
       },
     },
@@ -114,7 +114,7 @@ export default {
       this.$store.dispatch(LIST_FRIENDS);
     },
     goToDetails(index) {
-      console.log(index);
+      this.$router.push({ name: friendRoute.name, params: { id: this.data[index].id}});
     },
     handleDelete(index) {
       this.$store.dispatch(DESTROY_FRIEND, this.data[index].id)
@@ -124,7 +124,6 @@ export default {
     },
     doSearch() {
       this.paginationCurrentPage = 1;
-      console.log('search?', this.search);
       this.loadData();
     },
     debouncedSearch(value) {

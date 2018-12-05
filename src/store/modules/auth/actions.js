@@ -35,7 +35,6 @@ export default {
       // dispatch(USER_REQUEST);
       resolve(resp);
     }).catch((err) => {
-      console.log('refresh err');
       commit(AUTH_ERROR);
       commit(CLEAR_TOKEN);
       commit(USER_DATA, undefined);
@@ -53,7 +52,6 @@ export default {
       // dispatch(USER_REQUEST);
       resolve(resp);
     }).catch((err) => {
-      console.log('refresh err');
       commit(AUTH_ERROR);
       commit(CLEAR_TOKEN);
       commit(USER_DATA, undefined);
@@ -72,7 +70,6 @@ export default {
       // dispatch(USER_REQUEST);
       resolve(resp);
     }).catch((err) => {
-      console.log('refresh err');
       commit(AUTH_ERROR);
       commit(USER_DATA, undefined);
       reject(err);

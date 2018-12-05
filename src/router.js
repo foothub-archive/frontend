@@ -6,6 +6,7 @@ import Register from '@/views/Register.vue';
 import Home from '@/views/Home.vue';
 import MyProfile from '@/views/MyProfile.vue';
 import Friends from '@/views/Friends.vue';
+import Friend from '@/views/Friend.vue';
 
 export const loginRoute = {
   path: '/login',
@@ -35,10 +36,17 @@ export const myProfileRoute = {
   meta: { requiresAuth: true },
 };
 
-export const FriendsRoute = {
+export const friendsRoute = {
   path: '/friends',
   name: 'friends',
   component: Friends,
+  // meta: { requiresAuth: true },
+};
+
+export const friendRoute = {
+  path: '/friend/:id',
+  name: 'friend',
+  component: Friend,
   // meta: { requiresAuth: true },
 };
 
@@ -47,7 +55,8 @@ export const routes = [
   registerRoute,
   homeRoute,
   myProfileRoute,
-  FriendsRoute,
+  friendsRoute,
+  friendRoute,
 ];
 
 const router = new Router({
