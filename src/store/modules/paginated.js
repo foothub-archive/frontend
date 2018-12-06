@@ -17,7 +17,7 @@ const buildState = (client, url) => ({
   // these must be provided by whoever is using this module
   client: client, // http client (axios instance)
   url: url, // url that should be queried
-  // namespaced so it can be merged "carelessly"
+
   status: '', // '', loading, success, error
   search: '', // search keyword, used when getting data
 

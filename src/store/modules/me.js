@@ -1,70 +1,75 @@
 import { coreApi } from '../../apis';
-
 import {
-  ME_REQUEST,
-  ME_SUCCESS,
-  ME_ERROR,
-  ME_NAME,
-  RETRIEVE_ME,
-  UPDATE_ME,
+  _LOADING_G as LOADING_G,
+  _LOADED_G as LOADED_G,
+  _ID_G as ID_G,
+  _REQUEST_M as REQUEST_M,
+  _SUCCESS_M as SUCCESS_M,
+  _ERROR_M as ERROR_M,
+  _NAME_M as NAME_M,
+  _GET_A as GET_A,
+  _PUT_A as PUT_A,
 } from '../constants/me';
 
-
 const state = {
-  data: undefined,
-  status: '',
+  client: coreApi,
+  url: 'profiles',
+  profile: {}, // my profile data
+  status: '', // '', loading, success, error
 };
 
 const getters = {
-  isMyProfileLoaded: state => state.data !== undefined,
-  profileStatus: state => state.status,
-  myProfile: (state, getters) => (key) => {
-    if (getters.isMyProfileLoaded) {
-      return state.data[key];
-    }
-    return undefined;
-  },
-  myProfileId: (state, getters) => getters.myProfile('uuid'),
+  // true when waiting for a response
+  [LOADING_G]: state => state.status === 'loading',
+  // true after successful response
+  [LOADED_G]: state => Object.keys(state.profile).length > 0,
+  [ID_G]: (state) => state.profile.uuid,
 };
 
 /* eslint-disable no-param-reassign */
 const mutations =  {
-  [ME_REQUEST]: (state) => {
+  // before requesting
+  [REQUEST_M]: (state) => {
     state.status = 'loading';
   },
-  [ME_SUCCESS]: (state, data) => {
+  // on a success request
+  [SUCCESS_M]: (state, profile) => {
     state.status = 'success';
-    state.data = data;
+    state.profile = profile;
   },
-  [ME_ERROR]: (state) => {
+  // on a failed request
+  [ERROR_M]: (state) => {
     state.status = 'error';
   },
-  [ME_NAME]: (state, name) => {
-    state.data.name = name;
+  // for mutating profile name
+  [NAME_M]: (state, name) => {
+    state.profile.name = name;
   },
 };
 /* eslint-enable no-param-reassign */
 
 const actions = {
-  [RETRIEVE_ME]: ({ commit }) => new Promise((resolve, reject) => {
-    commit(ME_REQUEST);
-    coreApi.get('profiles/me').then((resp) => {
-      commit(ME_SUCCESS, resp.data);
-      resolve(resp);
-    }).catch((err) => {
-      commit(ME_ERROR);
-      reject(err);
-    });
+  [GET_A]: ({ state, commit }) => new Promise((resolve, reject) => {
+    commit(REQUEST_M);
+    state.client.get(`${state.url}/me`)
+      .then((resp) => {
+        commit(SUCCESS_M, resp.data);
+        resolve(resp);
+      }).catch((err) => {
+        commit(ERROR_M);
+        reject(err);
+      });
   }),
-  [UPDATE_ME]: ({ commit, getters }, data) => new Promise((resolve, reject) => {
-    commit(ME_REQUEST);
-    coreApi.put(`profiles/${getters.myProfileId}`, data).then((resp) => {
-      commit(ME_SUCCESS, resp.data);
-      resolve(resp);
-    }).catch((err) => {
-      commit(ME_ERROR);
-      reject(err);
-    });
+  [PUT_A]: ({ state, getters, commit }, data) => new Promise((resolve, reject) => {
+    commit(REQUEST_M);
+    state.client.put(`${state.url}/${getters.id}`, data)
+      .then((resp) => {
+        commit(SUCCESS_M, resp.data);
+        resolve(resp);
+      }).catch((err) => {
+        commit(ERROR_M);
+        reject(err);
+      });
   }),
 };
 
@@ -73,4 +78,5 @@ export default {
   getters,
   actions,
   mutations,
+  namespaced: true,
 };

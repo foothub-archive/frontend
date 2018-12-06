@@ -4,7 +4,7 @@
             My Profile
         </div>
         <el-form
-            v-if="isMyProfileLoaded"
+            v-if="loaded"
             label-width="120px">
             <el-form-item label="Email">
                 <el-input
@@ -17,7 +17,7 @@
                     :disabled="true"/>
             </el-form-item>
             <el-form-item label="Name">
-                <el-input v-model="myName"/>
+                <el-input v-model="name"/>
             </el-form-item>
         </el-form>
         <el-button
@@ -34,40 +34,45 @@
 </template>
 
 <script>
-import { RETRIEVE_ME, UPDATE_ME, ME_NAME } from '../store/constants/me';
+import {
+  LOADED_G as LOADED_G,
+  NAME_M as NAME_M,
+  GET_A as GET_A,
+  PUT_A as PUT_A,
+} from '../store/constants/me';
 
 export default {
   name: 'Home',
   computed: {
-    isMyProfileLoaded() {
-      return this.$store.getters.isMyProfileLoaded;
+    loaded() {
+      return this.$store.getters[LOADED_G];
     },
     email() {
-      return this.$store.getters.user('email');
+      return 'email'; // this.$store.state.user('email');
     },
     username() {
-      return this.$store.getters.user('username');
+      return 'username'; // this.$store.getters.user('username');
     },
-    myName: {
+    name: {
       get() {
-        return this.$store.getters.myProfile('name');
+        return this.$store.state.me.profile.name;
       },
       set(value) {
-        this.$store.commit(ME_NAME, value);
+        this.$store.commit(NAME_M, value);
       },
     },
   },
   mounted() {
-    if (!this.$store.getters.isMyProfileLoaded) {
-      this.$store.dispatch(RETRIEVE_ME);
+    if (!this.$store.getters[LOADED_G]) {
+      this.$store.dispatch(GET_A);
     }
   },
   methods: {
     refresh() {
-      this.$store.dispatch(RETRIEVE_ME);
+      this.$store.dispatch(GET_A);
     },
     save() {
-      this.$store.dispatch(UPDATE_ME, this.$store.state.me.data);
+      this.$store.dispatch(PUT_A, this.$store.state.me.profile);
     },
   },
 };
