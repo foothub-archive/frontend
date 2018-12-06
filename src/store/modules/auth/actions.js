@@ -1,4 +1,4 @@
-import { authApi } from '@/apis/index';
+import { authApi } from '@/apis';
 
 import {
   AUTH_LOGIN, AUTH_REFRESH, AUTH_VERIFY, AUTH_LOGOUT,

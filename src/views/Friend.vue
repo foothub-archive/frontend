@@ -10,7 +10,6 @@
 </template>
 
 <script>
-import { RETRIEVE_FRIEND } from '@/store/actions/friends';
 import { friendsRoute } from '@/router';
 
 export default {
@@ -29,7 +28,7 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch(RETRIEVE_FRIEND, this.friendshipId)
+    this.$store.dispatch('friends/GET_FRIEND_A', this.friendshipId)
       .then(resp => this.friendship = resp.data)
       .catch(() => this.$router.push({ name: friendsRoute.name }));
   },

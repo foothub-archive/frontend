@@ -21,13 +21,13 @@
             <br>
             <el-table
                 v-loading.body="loading"
-                v-if="data"
-                :data="data"
+                v-if="hasResults"
+                :data="results"
                 element-loading-text="Loading..."
                 element-loading-spinner="el-icon-loading"
                 style="width: 100%">
                 <el-table-column
-                    v-for="(header,index) in headers"
+                    v-for="(header, index) in headers"
                     :prop="header.prop"
                     :label="header.label"
                     :key="index"/>
@@ -48,9 +48,9 @@
                 </el-table-column>
             </el-table>
             <el-pagination
-                :current-page="paginationCurrentPage"
-                :page-size="paginationPageSize"
-                :total="paginationCount"
+                :current-page="current"
+                :page-size="pageSize"
+                :total="count"
                 :disabled="loading"
                 layout="prev, pager, next"
                 @current-change="handlePaginationChange"/>
@@ -60,7 +60,6 @@
 </template>
 
 <script>
-import { LIST_FRIENDS, DESTROY_FRIEND, FRIENDS_SEARCH } from '@/store/actions/friends';
 import { friendRoute } from '@/router';
 
 export default {
@@ -77,64 +76,67 @@ export default {
     };
   },
   computed: {
-    data() {
-      return this.$store.state.friends.data.results;
+    results() {
+      return this.$store.state.friends.paginated.results;
     },
-    paginationCurrentPage: {
+    current: {
       get() {
-        return this.$store.state.friends.data.current;
+        return this.$store.state.friends.paginated.current;
       },
       set(value) {
-        return this.$store.commit('FRIENDS_CURRENT_PAGE', value);
+        return this.$store.commit('friends/paginated/PAGINATED_CURRENT_M', value);
       },
     },
-    paginationCount() {
-      return this.$store.state.friends.data.count;
+    count() {
+      return this.$store.state.friends.paginated.count;
     },
-    paginationPageSize() {
+    pageSize() {
       return 14;
     },
     search: {
       get() {
-        return this.$store.state.friends.search;
+        return this.$store.state.friends.paginated.search;
       },
       set(value) {
         this.debouncedSearch(value);
       },
     },
     loading() {
-      return this.$store.getters.friendsAreLoading;
+      return this.$store.getters['friends/paginated/loading'];
     },
+    hasResults() {
+      return this.$store.getters['friends/paginated/hasResults'];
+    }
   },
   mounted() {
     this.loadData();
   },
   methods: {
     loadData() {
-      this.$store.dispatch(LIST_FRIENDS);
+      this.$store.dispatch(`friends/paginated/PAGINATED_LIST_A`);
     },
     goToDetails(index) {
-      this.$router.push({ name: friendRoute.name, params: { id: this.data[index].id}});
+      this.$router.push({ name: friendRoute.name, params: { id: this.results[index].id}});
     },
     handleDelete(index) {
-      this.$store.dispatch(DESTROY_FRIEND, this.data[index].id)
+      this.$store.dispatch('friends/DELETE_FRIEND_A', this.results[index].id)
         .then(() => {
           this.loadData();
         });
     },
     doSearch() {
-      this.paginationCurrentPage = 1;
+      this.current = 1;
       this.loadData();
     },
     debouncedSearch(value) {
       clearTimeout(this.searchTimeout);
       this.searchTimeout = setTimeout(() => {
-        this.$store.commit(FRIENDS_SEARCH, value);
+        this.$store.commit('friends/paginated/PAGINATED_SEARCH_M', value);
         this.doSearch();
       }, this.debounceTimer);
     },
     handlePaginationChange(page) {
-      this.paginationCurrentPage = page;
+      this.current = page;
       this.loadData();
     },
   },
