@@ -1,16 +1,27 @@
-export const AUTH_LOGIN = 'AUTH_LOGIN';
-export const AUTH_REFRESH = 'AUTH_REFRESH';
-export const AUTH_VERIFY = 'AUTH_VERIFY';
-export const AUTH_LOGOUT = 'AUTH_LOGOUT';
+const namespace = 'auth';
+export default namespace;
 
-export const CREATE_USER = 'CREATE_USER';
-export const RETRIEVE_USER = 'RETRIEVE_USER';
 
-export const AUTH_REQUEST = 'AUTH_LOGIN';
-export const AUTH_SUCCESS = 'AUTH_SUCCESS';
-export const AUTH_ERROR = 'AUTH_ERROR';
+// private constants, to be used in the module implementation
+export const _IS_AUTHED_G = 'IS_AUTHED_G';
+export const _REQUEST_M = 'REQUEST_M';
+export const _SUCCESS_M = 'SUCCESS_M';
+export const _ERROR_M = 'ERROR_M';
+export const _TOKEN_M = 'TOKEN_M';
+export const _CLEAR_TOKEN_M = 'CLEAR_TOKEN_M';
+export const _USER_M = 'USER_M';
+export const _CLEAR_USER_M = 'CLEAR_USER_M';
+export const _LOGIN_A = 'LOGIN_A';
+export const _REFRESH_A = 'REFRESH_A';
+export const _VERIFY_A = 'VERIFY_A';
+export const _LOGOUT_A = 'LOGOUT_A';
+export const _POST_USER_A = 'POST_USER_A';
+export const _GET_USER_A = 'GET_USER_A';
 
-export const NEW_TOKEN = 'NEW_TOKEN';
-export const CLEAR_TOKEN = 'CLEAR_TOKEN';
 
-export const USER_DATA = 'USER_DATA';
+// public constants, to be used by clients of this module
+export const IS_AUTHED_G = `${namespace}/${_IS_AUTHED_G}`;
+export const LOGIN_A = `${namespace}/${_LOGIN_A}`;
+export const VERIFY_A = `${namespace}/${_VERIFY_A}`;
+export const LOGOUT_A = `${namespace}/${_LOGOUT_A}`;
+export const POST_A = `${namespace}/${_POST_USER_A}`;

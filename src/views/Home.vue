@@ -13,20 +13,15 @@
 
 <script>
 import { loginRoute } from '../router';
-import { AUTH_LOGOUT } from '../store/constants/auth';
+import { LOGOUT_A as LOGOUT_A } from '../store/constants/auth';
 
 export default {
   name: 'Home',
-  mounted() {
-    // this.$store.dispatch(AUTH_REQUEST);
-  },
   methods: {
     logout() {
-      this.$store.dispatch(AUTH_LOGOUT).then(() => {
-        this.$router.push({ name: loginRoute.name });
-      }).catch((error) => {
-        console.error(error);
-      });
+      this.$store.dispatch(LOGOUT_A)
+        .then(() => { this.$router.push({ name: loginRoute.name }); })
+        .catch(() => {});
     },
   },
 };

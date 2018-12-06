@@ -48,10 +48,10 @@ export default {
       return this.$store.getters[LOADED_G];
     },
     email() {
-      return 'email'; // this.$store.state.user('email');
+      return this.$store.state.auth.user('email');
     },
     username() {
-      return 'username'; // this.$store.getters.user('username');
+      return this.$store.state.auth.user('username');
     },
     name: {
       get() {

@@ -28,7 +28,7 @@
 
 <script>
 import { loginRoute } from '../router';
-import { CREATE_USER } from '../store/constants/auth';
+import { POST_A as POST_A } from '../store/constants/auth';
 
 export default {
   name: 'Resgiter',
@@ -49,11 +49,9 @@ export default {
     createAccount() {
       this.failedCreate = false;
       const { email, username, password } = this;
-      this.$store.dispatch(CREATE_USER, { email, username, password }).then(() => {
-        this.$router.push(loginRoute.path);
-      }).catch(() => {
-        this.failedCreate = true;
-      });
+      this.$store.dispatch(POST_A, { email, username, password })
+        .then(() => { this.$router.push(loginRoute.path); })
+        .catch(() => { this.failedCreate = true; });
     },
   },
 };

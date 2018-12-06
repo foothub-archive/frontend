@@ -1,4 +1,5 @@
 import { coreApi } from '../../apis/index';
+import PAGINATED from '../constants/paginated'
 import paginated from './paginated'
 import {
   _GET_A as GET_A,
@@ -27,13 +28,15 @@ const actions = {
   }),
 };
 
+const namespaced = true;
+
 export default {
   state,
   getters,
   actions,
   mutations,
-  namespaced: true,
+  namespaced,
   modules: {
-    paginated: paginated(state.client, state.url),
+    [PAGINATED]: paginated(state.client, state.url),
   }
 };

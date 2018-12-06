@@ -1,137 +1,147 @@
 import { authApi } from '../../apis';
 
 import {
-  AUTH_LOGIN, AUTH_REFRESH, AUTH_VERIFY, AUTH_LOGOUT,
-  RETRIEVE_USER, CREATE_USER,
-  AUTH_REQUEST, AUTH_SUCCESS, AUTH_ERROR,
-  NEW_TOKEN, CLEAR_TOKEN,
-  USER_DATA,
+  _IS_AUTHED_G as IS_AUTHED_G,
+  _REQUEST_M as REQUEST_M,
+  _SUCCESS_M as SUCCESS_M,
+  _ERROR_M as ERROR_M,
+  _TOKEN_M as TOKEN_M,
+  _CLEAR_TOKEN_M as CLEAR_TOKEN_M,
+  _USER_M as USER_M,
+  _CLEAR_USER_M as CLEAR_USER_M,
+  _LOGIN_A as LOGIN_A,
+  _REFRESH_A as REFRESH_A,
+  _VERIFY_A as VERIFY_A,
+  _LOGOUT_A as LOGOUT_A,
+  _POST_USER_A as POST_USER_A,
+  _GET_USER_A as GET_USER_A,
 } from '../constants/auth';
 
 const state = {
+  client: authApi,
+  url: 'auth',
   token: localStorage.getItem('user-token') || '',
   status: '',
-  data: undefined,
+  user: {},
 };
 
 const getters = {
-  isAuthenticated: state => !!state.token,
-  authStatus: state => state.status,
-  user: state => (key) => {
-    if (state.data) {
-      return state.data[key];
-    }
-    return undefined;
-  },
+  [IS_AUTHED_G]: state => !!state.token,
 };
 
 /* eslint-disable no-param-reassign */
 const mutations = {
-  [AUTH_REQUEST]: (state) => {
+  [REQUEST_M]: (state) => {
     state.status = 'loading';
   },
-  [AUTH_SUCCESS]: (state) => {
+  [SUCCESS_M]: (state) => {
     state.status = 'success';
   },
-  [AUTH_ERROR]: (state) => {
+  [ERROR_M]: (state) => {
     state.status = 'error';
   },
-  [NEW_TOKEN]: (state, token) => {
+  [TOKEN_M]: (state, token) => {
     state.token = token;
     localStorage.setItem('user-token', token);
   },
-  [CLEAR_TOKEN]: (state) => {
+  [CLEAR_TOKEN_M]: (state) => {
     state.token = '';
     localStorage.removeItem('user-token');
   },
-  [USER_DATA]: (state, data) => {
+  [USER_M]: (state, data) => {
     state.data = data;
+  },
+  [CLEAR_USER_M]: (state) => {
+    state.data = {};
   },
 };
 
 const actions = {
-  [AUTH_LOGIN]: ({ commit }, userCredentials) => new Promise((resolve, reject) => {
-    commit(AUTH_REQUEST);
+  [LOGIN_A]: ({ commit }, userCredentials) => new Promise((resolve, reject) => {
+    commit(REQUEST_M);
     authApi.post('jwt/token-obtain', userCredentials).then((resp) => {
-      commit(AUTH_SUCCESS);
-      commit(NEW_TOKEN, resp.data.token);
-      commit(USER_DATA, resp.data.user);
+      commit(SUCCESS_M);
+      commit(TOKEN_M, resp.data.token);
+      commit(USER_M, resp.data.user);
       // dispatch(USER_REQUEST);
       resolve(resp);
     }).catch((err) => {
-      commit(AUTH_ERROR);
-      commit(CLEAR_TOKEN);
-      commit(USER_DATA, undefined);
+      commit(ERROR_M);
+      commit(CLEAR_TOKEN_M);
+      commit(CLEAR_USER_M);
       reject(err);
     });
   }),
-  [AUTH_REFRESH]: ({ commit, state }) => new Promise((resolve, reject) => {
-    commit(AUTH_REQUEST);
+  [REFRESH_A]: ({ commit, state }) => new Promise((resolve, reject) => {
+    commit(REQUEST_M);
     authApi.post('jwt/token-refresh', {
       token: state.token,
     }).then((resp) => {
-      commit(AUTH_SUCCESS);
-      commit(NEW_TOKEN, resp.data.token);
-      commit(USER_DATA, resp.data.user);
+      commit(SUCCESS_M);
+      commit(TOKEN_M, resp.data.token);
+      commit(USER_M, resp.data.user);
       // dispatch(USER_REQUEST);
       resolve(resp);
     }).catch((err) => {
-      commit(AUTH_ERROR);
-      commit(CLEAR_TOKEN);
-      commit(USER_DATA, undefined);
+      commit(ERROR_M);
+      commit(CLEAR_TOKEN_M);
+      commit(CLEAR_USER_M);
       reject(err);
     });
   }),
-  [AUTH_VERIFY]: ({ commit, state }) => new Promise((resolve, reject) => {
-    commit(AUTH_REQUEST);
+  [VERIFY_A]: ({ commit, state }) => new Promise((resolve, reject) => {
+    commit(REQUEST_M);
     authApi.post('jwt/token-verify', {
       token: state.token,
     }).then((resp) => {
-      commit(AUTH_SUCCESS);
-      commit(NEW_TOKEN, resp.data.token);
-      commit(USER_DATA, resp.data.user);
+      commit(SUCCESS_M);
+      commit(TOKEN_M, resp.data.token);
+      commit(USER_M, resp.data.user);
       // dispatch(USER_REQUEST);
       resolve(resp);
     }).catch((err) => {
-      commit(AUTH_ERROR);
-      commit(CLEAR_TOKEN);
-      commit(USER_DATA, undefined);
+      commit(ERROR_M);
+      commit(CLEAR_TOKEN_M);
+      commit(CLEAR_USER_M);
       reject(err);
     });
   }),
-  [AUTH_LOGOUT]: ({ commit }) => new Promise((resolve) => {
-    commit(CLEAR_TOKEN);
+  [LOGOUT_A]: ({ commit }) => new Promise((resolve) => {
+    commit(CLEAR_TOKEN_M);
+    commit(CLEAR_USER_M);
     resolve();
   }),
-  [RETRIEVE_USER]: ({ commit, state }) => new Promise((resolve, reject) => {
-    commit(AUTH_REQUEST);
-    authApi.post(`users/${state.data.username}`).then((resp) => {
-      commit(AUTH_SUCCESS);
-      commit(USER_DATA, resp.data);
-      // dispatch(USER_REQUEST);
+  [POST_USER_A]: ({ commit }, data) => new Promise((resolve, reject) => {
+    commit(REQUEST_M);
+    authApi.post('users', data).then((resp) => {
+      commit(SUCCESS_M, '');
       resolve(resp);
     }).catch((err) => {
-      commit(AUTH_ERROR);
-      commit(USER_DATA, undefined);
+      commit(ERROR_M);
       reject(err);
     });
   }),
-  [CREATE_USER]: ({ commit }, data) => new Promise((resolve, reject) => {
-    commit(AUTH_REQUEST);
-    authApi.post('users', data).then((resp) => {
-      commit(AUTH_SUCCESS, '');
+  [GET_USER_A]: ({ commit, state }) => new Promise((resolve, reject) => {
+    commit(REQUEST_M);
+    authApi.post(`users/${state.data.username}`).then((resp) => {
+      commit(SUCCESS_M);
+      commit(USER_M, resp.data);
       resolve(resp);
     }).catch((err) => {
-      commit(AUTH_ERROR);
+      commit(ERROR_M);
+      commit(CLEAR_USER_M);
       reject(err);
     });
   }),
 };
+
+const namespaced = true;
 
 export default {
   state,
   getters,
   actions,
   mutations,
+  namespaced,
 };
 

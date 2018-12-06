@@ -73,10 +73,12 @@ const actions = {
   }),
 };
 
+const namespaced = true;
+
 export default {
   state,
   getters,
   actions,
   mutations,
-  namespaced: true,
+  namespaced,
 };

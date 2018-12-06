@@ -99,12 +99,14 @@ const actions = {
   }),
 };
 
+const namespaced = true;
+
 const paginated = (client, url) => ({
   state : buildState(client, url),
   getters,
   mutations,
   actions,
-  namespaced: true,
+  namespaced,
 });
 
 export default paginated

@@ -24,7 +24,7 @@
 
 <script>
 import { homeRoute } from '../router';
-import { AUTH_LOGIN } from '../store/constants/auth';
+import { LOGIN_A as LOGIN_A } from '../store/constants/auth';
 
 export default {
   name: 'Login',
@@ -36,7 +36,7 @@ export default {
   },
   computed: {
     failedLogin() {
-      return this.$store.getters.authStatus === 'error';
+      return this.$store.state.auth.status === 'error';
     },
     loginButtonDisable() {
       return !this.username || !this.password;
@@ -48,11 +48,9 @@ export default {
   methods: {
     login() {
       const { username, password } = this;
-      this.$store.dispatch(AUTH_LOGIN, { username, password }).then(() => {
-        this.$router.push({ name: this.nextUrlName });
-      }).catch((error) => {
-        console.error(error);
-      });
+      this.$store.dispatch(LOGIN_A, { username, password })
+        .then(() => { this.$router.push({ name: this.nextUrlName }); })
+        .catch(() => {});
     },
   },
 };
