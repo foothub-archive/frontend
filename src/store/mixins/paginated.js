@@ -12,6 +12,7 @@
  *    }
  */
 
+// state is the output of a function so it can be reused
 const buildState = (client, url) => ({
   // these must be provided by whoever is using this module
   client: client, // http client (axios instance)
@@ -33,14 +34,14 @@ const getters = {
   pageQueryParam: state => ({page: state.current}),
   // search related query params obj
   searchQueryParam: state => (state.search ? {search: state.search} : {}),
-  // query params obj
+  // build final query params obj
   queryParams: (state, getters) => {
-    const candidates = [getters.pageQueryParam, getters.searchQueryParam];
     const reducer = (accumulator, value) => Object.assign({}, accumulator, value);
-    return candidates.reduce(reducer)
+    return [getters.pageQueryParam, getters.searchQueryParam].reduce(reducer)
   },
 };
 
+// todo: move these constants to a separate file. used them.
 export const PAGINATED_REQUEST_M = 'PAGINATED_REQUEST_M';
 export const PAGINATED_SUCCESS_M = 'PAGINATED_SUCCESS_M ';
 export const PAGINATED_ERROR_M = 'PAGINATED_ERROR_M';
@@ -76,6 +77,7 @@ export const mutations = {
 };
 /* eslint-enable no-param-reassign */
 
+// todo: move these constants to a separate file. used them.
 export const PAGINATED_LIST_A = 'PAGINATED_LIST_A';
 
 const actions = {
@@ -94,14 +96,12 @@ const actions = {
   }),
 };
 
-const paginated = (client, url) => {
-  return {
-    state : buildState(client, url),
-    getters,
-    mutations,
-    actions,
-    namespaced: true,
-  };
-};
+const paginated = (client, url) => ({
+  state : buildState(client, url),
+  getters,
+  mutations,
+  actions,
+  namespaced: true,
+});
 
 export default paginated
