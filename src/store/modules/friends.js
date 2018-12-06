@@ -1,6 +1,9 @@
 import { coreApi } from '../../apis/index';
 import paginated from './paginated'
-import { GET_FRIEND_A, DELETE_FRIEND_A} from '../constants/friends';
+import {
+  _GET_A as GET_A,
+  _DELETE_A as DELETE_A,
+} from '../constants/friends';
 
 const state = {
   client: coreApi,
@@ -12,12 +15,12 @@ const getters = {};
 const mutations = {};
 
 const actions = {
-  [GET_FRIEND_A]: ({ state }, friendshipId) => new Promise((resolve, reject) => {
+  [GET_A]: ({ state }, friendshipId) => new Promise((resolve, reject) => {
     state.client.get(`${state.url}/${friendshipId}`)
       .then((resp) => { resolve(resp); })
       .catch((err) => { reject(err); });
   }),
-  [DELETE_FRIEND_A]: ({ state }, friendshipId) => new Promise((resolve, reject) => {
+  [DELETE_A]: ({ state }, friendshipId) => new Promise((resolve, reject) => {
     state.client.delete(`${state.url}/${friendshipId}`)
       .then((resp) => { resolve(resp); })
       .catch((err) => { reject(err); });

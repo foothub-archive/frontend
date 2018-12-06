@@ -60,9 +60,18 @@
 </template>
 
 <script>
+import {
+  LOADING_G as LOADING_G,
+  HAS_RESULTS_G as HAS_RESULTS_G,
+  SEARCH_M as SEARCH_M,
+  CURRENT_M as CURRENT_M,
+  DELETE_A as DELETE_A,
+  LIST_A as LIST_A,
+} from '../store/constants/friends';
 import { friendRoute } from '@/router';
 
 export default {
+  name: 'Friends',
   data() {
     return {
       headers: [
@@ -84,7 +93,7 @@ export default {
         return this.$store.state.friends.paginated.current;
       },
       set(value) {
-        return this.$store.commit('friends/paginated/PAGINATED_CURRENT_M', value);
+        return this.$store.commit(CURRENT_M, value);
       },
     },
     count() {
@@ -102,10 +111,10 @@ export default {
       },
     },
     loading() {
-      return this.$store.getters['friends/paginated/loading'];
+      return this.$store.getters[LOADING_G];
     },
     hasResults() {
-      return this.$store.getters['friends/paginated/hasResults'];
+      return this.$store.getters[HAS_RESULTS_G];
     }
   },
   mounted() {
@@ -113,13 +122,13 @@ export default {
   },
   methods: {
     loadData() {
-      this.$store.dispatch(`friends/paginated/PAGINATED_LIST_A`);
+      this.$store.dispatch(LIST_A);
     },
     goToDetails(index) {
       this.$router.push({ name: friendRoute.name, params: { id: this.results[index].id}});
     },
     handleDelete(index) {
-      this.$store.dispatch('friends/DELETE_FRIEND_A', this.results[index].id)
+      this.$store.dispatch(DELETE_A, this.results[index].id)
         .then(() => {
           this.loadData();
         });
@@ -131,7 +140,7 @@ export default {
     debouncedSearch(value) {
       clearTimeout(this.searchTimeout);
       this.searchTimeout = setTimeout(() => {
-        this.$store.commit('friends/paginated/PAGINATED_SEARCH_M', value);
+        this.$store.commit(SEARCH_M, value);
         this.doSearch();
       }, this.debounceTimer);
     },

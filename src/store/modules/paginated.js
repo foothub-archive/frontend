@@ -12,6 +12,20 @@
  *    }
  */
 
+import {
+  _LOADING_G as LOADING_G,
+  _HAS_RESULTS_G as HAS_RESULTS_G,
+  _PAGE_QPARAMS_G as PAGE_QPARAMS_G,
+  _SEARCH_QPARAMS_G as SEARCH_QPARAMS_G,
+  _QPARAMS_G as QPARAMS_G,
+  _REQUEST_M as REQUEST_M,
+  _SUCCESS_M as SUCCESS_M,
+  _ERROR_M as ERROR_M,
+  _SEARCH_M as SEARCH_M,
+  _CURRENT_M as CURRENT_M,
+  _LIST_A as LIST_A,
+} from '../constants/paginated';
+
 // state is the output of a function so it can be reused
 const buildState = (client, url) => ({
   // these must be provided by whoever is using this module
@@ -28,69 +42,58 @@ const buildState = (client, url) => ({
 
 const getters = {
   // true when waiting for a response
-  loading: state => state.status === 'loading',
-  hasResults: state => state.results.length > 0,
+  [LOADING_G]: state => state.status === 'loading',
+  [HAS_RESULTS_G]: state => state.results.length > 0,
   // page related query parameters obj
-  pageQueryParam: state => ({page: state.current}),
+  [PAGE_QPARAMS_G]: state => ({page: state.current}),
   // search related query params obj
-  searchQueryParam: state => (state.search ? {search: state.search} : {}),
+  [SEARCH_QPARAMS_G]: state => (state.search ? {search: state.search} : {}),
   // build final query params obj
-  queryParams: (state, getters) => {
+  [QPARAMS_G]: (state, getters) => {
     const reducer = (accumulator, value) => Object.assign({}, accumulator, value);
     return [getters.pageQueryParam, getters.searchQueryParam].reduce(reducer)
   },
 };
 
-// todo: move these constants to a separate file. used them.
-export const PAGINATED_REQUEST_M = 'PAGINATED_REQUEST_M';
-export const PAGINATED_SUCCESS_M = 'PAGINATED_SUCCESS_M ';
-export const PAGINATED_ERROR_M = 'PAGINATED_ERROR_M';
-
-export const PAGINATED_SEARCH_M = 'PAGINATED_SEARCH_M';
-export const PAGINATED_CURRENT_M = 'PAGINATED_CURRENT_M';
-
 /* eslint-disable no-param-reassign */
 export const mutations = {
   // before requesting
-  [PAGINATED_REQUEST_M]: (state) => {
+  [REQUEST_M]: (state) => {
     state.status = 'loading';
   },
   // on a success request
-  [PAGINATED_SUCCESS_M]: (state, data) => {
+  [SUCCESS_M]: (state, data) => {
     state.status = 'success';
     state.results = data.results;
     state.currentPage = data.current;
     state.itemCount = data.count;
   },
   // on a failed request
-  [PAGINATED_ERROR_M]: (state) => {
+  [ERROR_M]: (state) => {
     state.status = 'error';
   },
   // for mutating the search pattern
-  [PAGINATED_SEARCH_M]: (state, search) => {
+  [SEARCH_M]: (state, search) => {
     state.search = search;
   },
   // for mutating the current page
-  [PAGINATED_CURRENT_M]: (state, current) => {
+  [CURRENT_M]: (state, current) => {
     state.current = current;
   },
 };
 /* eslint-enable no-param-reassign */
 
-// todo: move these constants to a separate file. used them.
-export const PAGINATED_LIST_A = 'PAGINATED_LIST_A';
-
 const actions = {
   // fetches items, mutates state
-  [PAGINATED_LIST_A]: ({ state, getters, commit }) => new Promise((resolve, reject) => {
-    commit(PAGINATED_REQUEST_M);
-    state.client.get(state.url, { params: getters.queryParams })
+  [LIST_A]: ({ state, getters, commit }) => new Promise((resolve, reject) => {
+    commit(REQUEST_M);
+    state.client.get(state.url, { params: getters[QPARAMS_G] })
       .then((resp) => {
-        commit(PAGINATED_SUCCESS_M, resp.data);
+        commit(SUCCESS_M, resp.data);
         resolve(resp);
       })
       .catch((err) => {
-        commit(PAGINATED_ERROR_M);
+        commit(ERROR_M);
         reject(err);
       });
   }),
