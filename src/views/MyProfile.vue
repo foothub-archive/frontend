@@ -3,30 +3,30 @@
         <div>
             My Profile
         </div>
-        <el-form 
-            v-if="isMyProfileLoaded" 
+        <el-form
+            v-if="isMyProfileLoaded"
             label-width="120px">
             <el-form-item label="Email">
-                <el-input 
-                    v-model="email" 
+                <el-input
+                    v-model="email"
                     :disabled="true"/>
             </el-form-item>
             <el-form-item label="Username">
-                <el-input 
-                    v-model="username" 
+                <el-input
+                    v-model="username"
                     :disabled="true"/>
             </el-form-item>
             <el-form-item label="Name">
                 <el-input v-model="myName"/>
             </el-form-item>
         </el-form>
-        <el-button 
-            type="primary" 
+        <el-button
+            type="primary"
             @click="refresh()">
             Refresh
         </el-button>
-        <el-button 
-            type="primary" 
+        <el-button
+            type="primary"
             @click="save()">
             Save
         </el-button>
@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { RETRIEVE_ME, UPDATE_ME, ME_NAME } from '@/store/actions/me';
+import { RETRIEVE_ME, UPDATE_ME, ME_NAME } from '../store/constants/me';
 
 export default {
   name: 'Home',

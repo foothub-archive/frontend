@@ -1,15 +1,15 @@
 <template>
     <div>
-        <el-input 
-            v-model="username" 
+        <el-input
+            v-model="username"
             placeholder="username"/>
-        <el-input 
-            v-model="password" 
-            type="password" 
+        <el-input
+            v-model="password"
+            type="password"
             placeholder="password"/>
-        <el-button 
-            :disabled="loginButtonDisable" 
-            type="primary" 
+        <el-button
+            :disabled="loginButtonDisable"
+            type="primary"
             @click="login()">
             Login
             <font-awesome-icon icon="user" />
@@ -23,8 +23,8 @@
 </template>
 
 <script>
-import { homeRoute } from '@/router';
-import { AUTH_LOGIN } from '@/store/actions/auth';
+import { homeRoute } from '../router';
+import { AUTH_LOGIN } from '../store/constants/auth';
 
 export default {
   name: 'Login',

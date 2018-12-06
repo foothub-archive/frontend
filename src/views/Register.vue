@@ -1,19 +1,19 @@
 <template>
     <div>
-        <el-input 
-            v-model="email" 
-            type="email" 
+        <el-input
+            v-model="email"
+            type="email"
             placeholder="email"/>
-        <el-input 
-            v-model="username" 
+        <el-input
+            v-model="username"
             placeholder="username"/>
-        <el-input 
-            v-model="password" 
-            type="password" 
+        <el-input
+            v-model="password"
+            type="password"
             placeholder="password"/>
-        <el-button 
-            :disabled="createButtonDisable" 
-            type="primary" 
+        <el-button
+            :disabled="createButtonDisable"
+            type="primary"
             @click="createAccount()">
             Create Account
             <font-awesome-icon icon="user-plus" />
@@ -27,8 +27,8 @@
 </template>
 
 <script>
-import { loginRoute } from '@/router';
-import { CREATE_USER } from '@/store/actions/auth';
+import { loginRoute } from '../router';
+import { CREATE_USER } from '../store/constants/auth';
 
 export default {
   name: 'Resgiter',

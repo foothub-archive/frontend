@@ -1,4 +1,4 @@
-import { authApi } from '@/apis';
+import { authApi } from '../../apis';
 
 import {
   AUTH_LOGIN, AUTH_REFRESH, AUTH_VERIFY, AUTH_LOGOUT,
@@ -6,9 +6,50 @@ import {
   AUTH_REQUEST, AUTH_SUCCESS, AUTH_ERROR,
   NEW_TOKEN, CLEAR_TOKEN,
   USER_DATA,
-} from '@/store/actions/auth';
+} from '../constants/auth';
 
-export default {
+const state = {
+  token: localStorage.getItem('user-token') || '',
+  status: '',
+  data: undefined,
+};
+
+const getters = {
+  isAuthenticated: state => !!state.token,
+  authStatus: state => state.status,
+  user: state => (key) => {
+    if (state.data) {
+      return state.data[key];
+    }
+    return undefined;
+  },
+};
+
+/* eslint-disable no-param-reassign */
+const mutations = {
+  [AUTH_REQUEST]: (state) => {
+    state.status = 'loading';
+  },
+  [AUTH_SUCCESS]: (state) => {
+    state.status = 'success';
+  },
+  [AUTH_ERROR]: (state) => {
+    state.status = 'error';
+  },
+  [NEW_TOKEN]: (state, token) => {
+    state.token = token;
+    localStorage.setItem('user-token', token);
+  },
+  [CLEAR_TOKEN]: (state) => {
+    state.token = '';
+    localStorage.removeItem('user-token');
+  },
+  [USER_DATA]: (state, data) => {
+    state.data = data;
+  },
+};
+
+const actions = {
   [AUTH_LOGIN]: ({ commit }, userCredentials) => new Promise((resolve, reject) => {
     commit(AUTH_REQUEST);
     authApi.post('jwt/token-obtain', userCredentials).then((resp) => {
@@ -86,3 +127,11 @@ export default {
     });
   }),
 };
+
+export default {
+  state,
+  getters,
+  actions,
+  mutations,
+};
+

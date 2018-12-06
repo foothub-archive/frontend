@@ -3,8 +3,8 @@
         <div>
             Home
         </div>
-        <el-button 
-            type="danger" 
+        <el-button
+            type="danger"
             @click="logout()">
             Logout
         </el-button>
@@ -12,8 +12,8 @@
 </template>
 
 <script>
-import { loginRoute } from '@/router';
-import { AUTH_LOGOUT } from '@/store/actions/auth';
+import { loginRoute } from '../router';
+import { AUTH_LOGOUT } from '../store/constants/auth';
 
 export default {
   name: 'Home',

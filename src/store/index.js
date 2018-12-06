@@ -1,5 +1,5 @@
 import Vuex from 'vuex';
-import { AUTH_VERIFY } from './actions/auth';
+import { AUTH_VERIFY } from './constants/auth';
 import auth from './modules/auth';
 import me from './modules/me';
 import friends from './modules/friends';
