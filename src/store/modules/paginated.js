@@ -15,19 +15,21 @@
 import {
   _LOADING_G as LOADING_G,
   _HAS_RESULTS_G as HAS_RESULTS_G,
+  _PER_PAGE_QPARAMS_G as PER_PAGE_QPARAMS_G,
   _PAGE_QPARAMS_G as PAGE_QPARAMS_G,
   _SEARCH_QPARAMS_G as SEARCH_QPARAMS_G,
   _QPARAMS_G as QPARAMS_G,
   _REQUEST_M as REQUEST_M,
   _SUCCESS_M as SUCCESS_M,
   _ERROR_M as ERROR_M,
-  _SEARCH_M as SEARCH_M,
+  _PER_PAGE_M as PER_PAGE_M,
   _CURRENT_M as CURRENT_M,
+  _SEARCH_M as SEARCH_M,
   _LIST_A as LIST_A,
 } from '../constants/paginated';
 
 // state is the output of a function so it can be reused
-const buildState = (client, url) => ({
+const buildState = (client, url, perPage) => ({
   // these must be provided by whoever is using this module
   client: client, // http client (axios instance)
   url: url, // url that should be queried
@@ -38,21 +40,24 @@ const buildState = (client, url) => ({
   results: [], // list of items
   current: 1, // current page number
   count: 0, // total item count
+  perPage: perPage || 14, // number of items per page (default is 14)
 });
 
 const getters = {
   // true when waiting for a response
   [LOADING_G]: state => state.status === 'loading',
   [HAS_RESULTS_G]: state => state.results.length > 0,
+  // number of items per page for query params
+  [PER_PAGE_QPARAMS_G]: state => ({page_size: state.perPage}),
   // page related query parameters obj
   [PAGE_QPARAMS_G]: state => ({page: state.current}),
   // search related query params obj
   [SEARCH_QPARAMS_G]: state => (state.search ? {search: state.search} : {}),
   // build final query params obj
   [QPARAMS_G]: (state, getters) => {
-    const objs = [getters[PAGE_QPARAMS_G], getters[SEARCH_QPARAMS_G]];
-    const reducer = (accumulator, value) => Object.assign({}, accumulator, value);
-    return objs.reduce(reducer)
+    const keys = [PER_PAGE_QPARAMS_G, PAGE_QPARAMS_G, SEARCH_QPARAMS_G];
+    const reducer = (accumulator, value) => Object.assign({}, accumulator, getters[value]);
+    return keys.reduce(reducer)
   },
 };
 
@@ -73,13 +78,17 @@ export const mutations = {
   [ERROR_M]: (state) => {
     state.status = 'error';
   },
-  // for mutating the search pattern
-  [SEARCH_M]: (state, search) => {
-    state.search = search;
+  // for mutating the per page item count
+  [PER_PAGE_M]: (state, perPage) => {
+    state.perPage = perPage;
   },
   // for mutating the current page
   [CURRENT_M]: (state, current) => {
     state.current = current;
+  },
+  // for mutating the search pattern
+  [SEARCH_M]: (state, search) => {
+    state.search = search;
   },
 };
 /* eslint-enable no-param-reassign */
