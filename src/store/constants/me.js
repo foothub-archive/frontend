@@ -3,8 +3,8 @@ export default namespace;
 
 // private constants, to be used in the module implementation
 export const _LOADING_G = 'LOADING_G';
-export const _LOADED_G = '_LOADED_G';
-export const _ID_G = '_ID_G';
+export const _LOADED_G = 'LOADED_G';
+export const _ID_G = 'ID_G';
 export const _REQUEST_M = 'REQUEST_M';
 export const _SUCCESS_M = 'SUCCESS_M';
 export const _ERROR_M = 'ERROR_M';

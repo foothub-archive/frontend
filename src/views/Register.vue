@@ -28,7 +28,7 @@
 
 <script>
 import { loginRoute } from '../router';
-import { POST_A as POST_A } from '../store/constants/auth';
+import { POST_A as POST_A } from '../store/constants/user';
 
 export default {
   name: 'Resgiter',

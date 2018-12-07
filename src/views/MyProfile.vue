@@ -35,44 +35,52 @@
 
 <script>
 import {
-  LOADED_G as LOADED_G,
-  NAME_M as NAME_M,
-  GET_A as GET_A,
-  PUT_A as PUT_A,
+  LOADED_G as LOADED_USER_G,
+  GET_A as GET_USER_A
+} from '../store/constants/user';
+import {
+  LOADED_G as LOADED_PROFILE_G,
+  NAME_M as PROFILE_NAME_M,
+  GET_A as GET_PROFILE_A,
+  PUT_A as PUT_PROFILE_A,
 } from '../store/constants/me';
 
 export default {
   name: 'Home',
   computed: {
     loaded() {
-      return this.$store.getters[LOADED_G];
+      return this.$store.getters[LOADED_USER_G] &&
+        this.$store.getters[LOADED_PROFILE_G];
     },
     email() {
-      return this.$store.state.auth.user('email');
+      return this.$store.state.user.user.email;
     },
     username() {
-      return this.$store.state.auth.user('username');
+      return this.$store.state.user.user.username;
     },
     name: {
       get() {
         return this.$store.state.me.profile.name;
       },
       set(value) {
-        this.$store.commit(NAME_M, value);
+        this.$store.commit(PROFILE_NAME_M, value);
       },
     },
   },
   mounted() {
-    if (!this.$store.getters[LOADED_G]) {
-      this.$store.dispatch(GET_A);
+    if (!this.$store.getters[LOADED_USER_G]) {
+      this.$store.dispatch(GET_USER_A);
+    }
+    if (!this.$store.getters[LOADED_PROFILE_G]) {
+      this.$store.dispatch(GET_PROFILE_A);
     }
   },
   methods: {
     refresh() {
-      this.$store.dispatch(GET_A);
+      this.$store.dispatch(GET_PROFILE_A);
     },
     save() {
-      this.$store.dispatch(PUT_A, this.$store.state.me.profile);
+      this.$store.dispatch(PUT_PROFILE_A, this.$store.state.me.profile);
     },
   },
 };

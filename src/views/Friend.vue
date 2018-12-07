@@ -10,6 +10,9 @@
 </template>
 
 <script>
+import {
+  GET_A as GET_FRIEND_A,
+} from '../store/constants/friends'
 import { friendsRoute } from '@/router';
 
 export default {
@@ -28,10 +31,15 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch('friends/GET_FRIEND_A', this.friendshipId)
-      .then(resp => this.friendship = resp.data)
-      .catch(() => this.$router.push({ name: friendsRoute.name }));
+    this.loadFriend();
   },
+  methods: {
+    loadFriend() {
+      this.$store.dispatch(GET_FRIEND_A, this.friendshipId)
+        .then(resp => this.friendship = resp.data)
+        .catch(() => this.$router.push({ name: friendsRoute.name }));
+    }
+  }
 };
 </script>
 

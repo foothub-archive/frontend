@@ -6,12 +6,15 @@ import ME from './constants/me';
 import me from './modules/me';
 import FRIENDS from './constants/friends';
 import friends from './modules/friends';
+import USER from './constants/user';
+import user from './modules/user';
 
 const debug = process.env.NODE_ENV !== 'production';
 
 const store = new Vuex.Store({
   modules: {
     [AUTH]: auth,
+    [USER]: user,
     [ME]: me,
     [FRIENDS]: friends,
   },

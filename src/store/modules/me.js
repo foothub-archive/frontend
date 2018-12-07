@@ -14,8 +14,8 @@ import {
 const state = {
   client: coreApi,
   url: 'profiles',
-  profile: {}, // my profile data
   status: '', // '', loading, success, error
+  profile: {}, // my profile data
 };
 
 const getters = {
@@ -62,7 +62,7 @@ const actions = {
   }),
   [PUT_A]: ({ state, getters, commit }, data) => new Promise((resolve, reject) => {
     commit(REQUEST_M);
-    state.client.put(`${state.url}/${getters.id}`, data)
+    state.client.put(`${state.url}/${getters[ID_G]}`, data)
       .then((resp) => {
         commit(SUCCESS_M, resp.data);
         resolve(resp);

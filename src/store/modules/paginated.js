@@ -50,8 +50,9 @@ const getters = {
   [SEARCH_QPARAMS_G]: state => (state.search ? {search: state.search} : {}),
   // build final query params obj
   [QPARAMS_G]: (state, getters) => {
+    const objs = [getters[PAGE_QPARAMS_G], getters[SEARCH_QPARAMS_G]];
     const reducer = (accumulator, value) => Object.assign({}, accumulator, value);
-    return [getters.pageQueryParam, getters.searchQueryParam].reduce(reducer)
+    return objs.reduce(reducer)
   },
 };
 
