@@ -55,9 +55,12 @@ const getters = {
   [SEARCH_QPARAMS_G]: state => (state.search ? {search: state.search} : {}),
   // build final query params obj
   [QPARAMS_G]: (state, getters) => {
-    const keys = [PER_PAGE_QPARAMS_G, PAGE_QPARAMS_G, SEARCH_QPARAMS_G];
-    const reducer = (accumulator, value) => Object.assign({}, accumulator, getters[value]);
-    return keys.reduce(reducer)
+    const qps = [
+      getters[PER_PAGE_QPARAMS_G],
+      getters[PAGE_QPARAMS_G],
+      getters[SEARCH_QPARAMS_G],
+    ];
+    return qps.reduce((accumulator, value) => Object.assign({}, accumulator, value));
   },
 };
 

@@ -2,12 +2,14 @@ import Vuex from 'vuex';
 import { IS_AUTHED_G as IS_AUTHED_G, VERIFY_A as VERIFY_A } from './constants/auth';
 import AUTH from './constants/auth';
 import auth from './modules/auth';
+import USER from './constants/user';
+import user from './modules/user';
 import ME from './constants/me';
 import me from './modules/me';
 import FRIENDS from './constants/friends';
 import friends from './modules/friends';
-import USER from './constants/user';
-import user from './modules/user';
+import FRIEND_INVITES from './constants/friend-invites';
+import friendInvites from './modules/friend-invites'
 
 const debug = process.env.NODE_ENV !== 'production';
 
@@ -17,6 +19,7 @@ const store = new Vuex.Store({
     [USER]: user,
     [ME]: me,
     [FRIENDS]: friends,
+    [FRIEND_INVITES]: friendInvites,
   },
   strict: debug,
 });

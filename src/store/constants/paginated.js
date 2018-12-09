@@ -4,7 +4,7 @@ export default namespace;
 // private constants, to be used in the module implementation
 export const _LOADING_G = 'LOADING_G';
 export const _HAS_RESULTS_G = 'HAS_RESULTS_G';
-export const _PER_PAGE_QPARAMS_G = '_PER_PAGE_QPARAMS_G';
+export const _PER_PAGE_QPARAMS_G = 'PER_PAGE_QPARAMS_G';
 export const _PAGE_QPARAMS_G = 'PAGE_QPARAMS_G';
 export const _SEARCH_QPARAMS_G = 'SEARCH_QPARAMS_G';
 export const _QPARAMS_G = 'QPARAMS_G';

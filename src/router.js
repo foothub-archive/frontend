@@ -1,13 +1,14 @@
 import Router from 'vue-router';
-import store from '@/store';
+import store from './store';
 import {IS_AUTHED_G as IS_AUTHED_G } from './store/constants/auth';
 
-import Login from '@/views/Login.vue';
-import Register from '@/views/Register.vue';
-import Home from '@/views/Home.vue';
-import MyProfile from '@/views/MyProfile.vue';
-import Friends from '@/views/Friends.vue';
-import Friend from '@/views/Friend.vue';
+import Login from './views/Login.vue';
+import Register from './views/Register.vue';
+import Home from './views/Home.vue';
+import MyProfile from './views/MyProfile.vue';
+import Friends from './views/Friends.vue';
+import Friend from './views/Friend.vue';
+import FriendInvites from './views/friend-invites'
 
 export const loginRoute = {
   path: '/login',
@@ -51,6 +52,13 @@ export const friendRoute = {
   meta: { requiresAuth: true },
 };
 
+export const friendInvitesRoute = {
+  path: '/friend-invites',
+  name: 'friend-invites',
+  component: FriendInvites,
+  meta: { requiresAuth: true },
+};
+
 export const routes = [
   loginRoute,
   registerRoute,
@@ -58,6 +66,7 @@ export const routes = [
   myProfileRoute,
   friendsRoute,
   friendRoute,
+  friendInvitesRoute,
 ];
 
 const router = new Router({
@@ -68,7 +77,6 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (!store.getters[IS_AUTHED_G]) {
-      console.error('NOT authed?', IS_AUTHED_G, store.getters);
       next({
         name: loginRoute.name,
         query: { next: to.name },
