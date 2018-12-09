@@ -57,12 +57,7 @@ const actions = {
   }),
   [GET_A]: ({ state, commit }) => new Promise((resolve, reject) => {
     commit(REQUEST_M);
-    console.error(`${state.url}/me not implemented - faking user state`);
-    commit(SUCCESS_M); // todo: remove this
-    commit(USER_M, {username: 'John Doe', email: 'followMeOnFootHub@fh.com'});
-    resolve();
-    /**
-    state.client.post(`${state.url}/me`)
+    state.client.get(`${state.url}/me`)
       .then((resp) => {
         commit(SUCCESS_M);
         commit(USER_M, resp.data);
@@ -72,7 +67,6 @@ const actions = {
         commit(CLEAR_USER_M);
         reject(err);
       });
-    */
   }),
 };
 
