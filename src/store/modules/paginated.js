@@ -114,8 +114,8 @@ const actions = {
 
 const namespaced = true;
 
-const paginated = (client, url) => ({
-  state : buildState(client, url),
+const paginated = (client, url, perPage) => ({
+  state : buildState(client, url, perPage),
   getters,
   mutations,
   actions,

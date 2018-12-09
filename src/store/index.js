@@ -12,6 +12,8 @@ import FRIEND_INVITED from './constants/friend-invited';
 import friendInvited from './modules/friend-invited'
 import FRIEND_INVITING from './constants/friend-inviting'
 import friendInviting from './modules/friend-inviting'
+import FRIEND_PROFILES from './constants/friend-profiles'
+import friendProfiles from './modules/friend-profiles'
 
 const debug = process.env.NODE_ENV !== 'production';
 
@@ -23,6 +25,7 @@ const store = new Vuex.Store({
     [FRIENDS]: friends,
     [FRIEND_INVITED]: friendInvited,
     [FRIEND_INVITING]: friendInviting,
+    [FRIEND_PROFILES]: friendProfiles,
   },
   strict: debug,
 });

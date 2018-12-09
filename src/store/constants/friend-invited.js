@@ -6,7 +6,6 @@ import {
   LIST_A as PAGINATED_LIST_A,
 } from './paginated';
 
-// private constants, to be used in the module implementation
 const namespace = 'friendInvited';
 export default namespace;
 

@@ -3,46 +3,12 @@
         type="flex"
         class="row-bg"
         justify="space-between">
-
-        <el-dialog
-            :visible.sync="addingFriend"
-            title="Add Friends"
-        >
-            <friend-profiles/>
-        </el-dialog>
-
-        <el-col :span="6"/>
-        <el-col :span="12">
-            <el-row
-                type="flex"
-                class="row-bg"
-                justify="space-between">
-                <el-col :span="6"/>
-                <el-col :span="12">
-                    <el-button
-                        type="success"
-                        size="mini"
-                        @click="addingFriend = true">
-                        Add Friend
-                    </el-button>
-                </el-col>
-                <el-col :span="6"/>
-            </el-row>
-            <br>
-            <el-row
-                type="flex"
-                class="row-bg"
-                justify="space-between">
-                <el-col :span="6"/>
-                <el-col :span="12">
-                    <el-input
-                        v-model="search"
-                        size="mini"
-                        placeholder="Type to search"
-                        @input="debouncedSearch"/>
-                </el-col>
-                <el-col :span="6"/>
-            </el-row>
+        <el-col>
+            <el-input
+                v-model="search"
+                size="mini"
+                placeholder="Type to search"
+                @input="debouncedSearch"/>
             <br>
             <el-table
                 v-loading.body="loading"
@@ -59,15 +25,10 @@
                 <el-table-column align="right">
                     <template slot-scope="scope">
                         <el-button
+                            :disabled="AddFriendDisabled(scope.$index)"
                             size="mini"
-                            @click="goToDetails(scope.$index)">
-                            Details
-                        </el-button>
-                        <el-button
-                            size="mini"
-                            type="danger"
-                            @click="handleDelete(scope.$index)">
-                            Delete
+                            @click="handleAddFriend(scope.$index)">
+                            Add Friend
                         </el-button>
                     </template>
                 </el-table-column>
@@ -80,62 +41,55 @@
                 layout="prev, pager, next"
                 @current-change="handlePaginationChange"/>
         </el-col>
-        <el-col :span="6"/>
     </el-row>
 </template>
 
 <script>
-import FriendProfiles from '../components/friend-profiles';
 import {
   LOADING_G as LOADING_G,
   HAS_RESULTS_G as HAS_RESULTS_G,
   SEARCH_M as SEARCH_M,
   CURRENT_M as CURRENT_M,
-  DELETE_A as DELETE_A,
   LIST_A as LIST_A,
-} from '../store/constants/friends';
-import { friendRoute } from '@/router';
+} from '../store/constants/friend-profiles';
+
+import { POST_A as POST_A } from '../store/constants/friend-inviting';
 
 export default {
-  name: 'Friends',
-  comments: {
-    FriendProfiles,
-  },
-  components: { FriendProfiles },
+  name: 'FriendProfiles',
   data() {
     return {
       headers: [
         {
-          prop: 'friend.name',
+          prop: 'name',
           label: 'Name',
         },
       ],
-      addingFriend: false,
       searchTimeout: undefined,
       debounceTimer: 700, // ms
     };
   },
   computed: {
     results() {
-      return this.$store.state.friends.paginated.results;
+      return this.$store.state.friendProfiles.paginated.results;
     },
     current: {
       get() {
-        return this.$store.state.friends.paginated.current;
+        return this.$store.state.friendProfiles.paginated.current;
       },
       set(value) {
         return this.$store.commit(CURRENT_M, value);
       },
     },
     count() {
-      return this.$store.state.friends.paginated.count;
+      return this.$store.state.friendProfiles.paginated.count;
     },
     pageSize() {
       return 14;
     },
     search: {
       get() {
-        return this.$store.state.friends.paginated.search;
+        return this.$store.state.friendProfiles.paginated.search;
       },
       set(value) {
         this.debouncedSearch(value);
@@ -155,11 +109,13 @@ export default {
     loadData() {
       this.$store.dispatch(LIST_A);
     },
-    goToDetails(index) {
-      this.$router.push({ name: friendRoute.name, params: { id: this.results[index].id}});
+    AddFriendDisabled(index) {
+      const profile = this.results[index];
+      return profile.is_friend || profile.has_friend_invitation;
     },
-    handleDelete(index) {
-      this.$store.dispatch(DELETE_A, this.results[index].id)
+    handleAddFriend(index) {
+      const profileUuid = this.results[index].uuid;
+      this.$store.dispatch(POST_A, profileUuid)
         .then(() => {
           this.loadData();
         });

@@ -1,7 +1,6 @@
 const namespace = 'auth';
 export default namespace;
 
-
 // private constants, to be used in the module implementation
 export const _IS_AUTHED_G = 'IS_AUTHED_G';
 export const _REQUEST_M = 'REQUEST_M';

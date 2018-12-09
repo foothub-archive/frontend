@@ -1,7 +1,6 @@
 const namespace = 'user';
 export default namespace;
 
-
 // private constants, to be used in the module implementation
 export const _LOADED_G = 'LOADED_G';
 export const _REQUEST_M = 'REQUEST_M';
