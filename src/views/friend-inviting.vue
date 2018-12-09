@@ -35,11 +35,6 @@
                     <template slot-scope="scope">
                         <el-button
                             size="mini"
-                            @click="handleAccept(scope.$index)">
-                            Accept
-                        </el-button>
-                        <el-button
-                            size="mini"
                             type="danger"
                             @click="handleDelete(scope.$index)">
                             Delete
@@ -65,10 +60,9 @@ import {
   HAS_RESULTS_G as HAS_RESULTS_G,
   SEARCH_M as SEARCH_M,
   CURRENT_M as CURRENT_M,
-  ACCEPT_A as ACCEPT_A,
   DELETE_A as DELETE_A,
   LIST_A as LIST_A,
-} from '../store/constants/friend-invites';
+} from '../store/constants/friend-inviting';
 
 export default {
   name: 'FriendInvites',
@@ -86,25 +80,25 @@ export default {
   },
   computed: {
     results() {
-      return this.$store.state.friendInvites.paginated.results;
+      return this.$store.state.friendInviting.paginated.results;
     },
     current: {
       get() {
-        return this.$store.state.friendInvites.paginated.current;
+        return this.$store.state.friendInviting.paginated.current;
       },
       set(value) {
         return this.$store.commit(CURRENT_M, value);
       },
     },
     count() {
-      return this.$store.state.friendInvites.paginated.count;
+      return this.$store.state.friendInviting.paginated.count;
     },
     pageSize() {
       return 14;
     },
     search: {
       get() {
-        return this.$store.state.friendInvites.paginated.search;
+        return this.$store.state.friendInviting.paginated.search;
       },
       set(value) {
         this.debouncedSearch(value);
@@ -123,12 +117,6 @@ export default {
   methods: {
     loadData() {
       this.$store.dispatch(LIST_A);
-    },
-    handleAccept(index) {
-      this.$store.dispatch(ACCEPT_A, this.results[index].id)
-        .then(() => {
-          this.loadData();
-        });
     },
     handleDelete(index) {
       this.$store.dispatch(DELETE_A, this.results[index].id)

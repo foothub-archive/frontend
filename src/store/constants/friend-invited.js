@@ -7,7 +7,7 @@ import {
 } from './paginated';
 
 // private constants, to be used in the module implementation
-const namespace = 'friendInvites';
+const namespace = 'friendInvited';
 export default namespace;
 
 // private constants, to be used in the module implementation

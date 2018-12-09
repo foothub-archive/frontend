@@ -8,8 +8,10 @@ import ME from './constants/me';
 import me from './modules/me';
 import FRIENDS from './constants/friends';
 import friends from './modules/friends';
-import FRIEND_INVITES from './constants/friend-invites';
-import friendInvites from './modules/friend-invites'
+import FRIEND_INVITED from './constants/friend-invited';
+import friendInvited from './modules/friend-invited'
+import FRIEND_INVITING from './constants/friend-inviting'
+import friendInviting from './modules/friend-inviting'
 
 const debug = process.env.NODE_ENV !== 'production';
 
@@ -19,7 +21,8 @@ const store = new Vuex.Store({
     [USER]: user,
     [ME]: me,
     [FRIENDS]: friends,
-    [FRIEND_INVITES]: friendInvites,
+    [FRIEND_INVITED]: friendInvited,
+    [FRIEND_INVITING]: friendInviting,
   },
   strict: debug,
 });

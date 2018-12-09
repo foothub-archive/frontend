@@ -4,7 +4,7 @@ import paginated from './paginated'
 import {
   _ACCEPT_A as ACCEPT_A,
   _DELETE_A as DELETE_A,
-} from '../constants/friend-invites';
+} from '../constants/friend-invited';
 
 const state = {
   client: coreApi,
