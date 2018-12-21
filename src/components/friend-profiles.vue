@@ -51,9 +51,9 @@ import {
   SEARCH_M as SEARCH_M,
   CURRENT_M as CURRENT_M,
   LIST_A as LIST_A,
-} from '../client-shared/src/vuex-store/constants/friend-profiles';
+} from '../shared/src/vuex-store/constants/friend-profiles';
 
-import { POST_A as POST_A } from '../client-shared/src/vuex-store/constants/friend-inviting';
+import { POST_A as POST_A } from '../shared/src/vuex-store/constants/friend-inviting';
 
 export default {
   name: 'FriendProfiles',

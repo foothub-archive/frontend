@@ -68,7 +68,7 @@ import {
   ACCEPT_A as ACCEPT_A,
   DELETE_A as DELETE_A,
   LIST_A as LIST_A,
-} from '../client-shared/src/vuex-store/constants/friend-invited';
+} from '../shared/src/vuex-store/constants/friend-invited';
 
 export default {
   name: 'FriendInvites',

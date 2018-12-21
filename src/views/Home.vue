@@ -13,7 +13,7 @@
 
 <script>
 import { loginRoute } from '../router';
-import { LOGOUT_A as LOGOUT_A } from '../client-shared/src/vuex-store/constants/auth';
+import { LOGOUT_A as LOGOUT_A } from '../shared/src/vuex-store/constants/auth';
 
 export default {
   name: 'Home',

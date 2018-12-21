@@ -28,7 +28,7 @@
 
 <script>
 import { loginRoute } from '../router';
-import { POST_A as POST_A } from '../client-shared/src/vuex-store/constants/user';
+import { POST_A as POST_A } from '../shared/src/vuex-store/constants/user';
 
 export default {
   name: 'Resgiter',

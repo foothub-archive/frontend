@@ -8,8 +8,8 @@ import router from './router';
 import { authApi, coreApi } from './services';
 
 import store from './shared/src/vuex-store';
-import { TOKEN_M } from './client-shared/src/vuex-store/constants/auth'
-import registerInterceptors from './client-shared/src/interceptors';
+import { TOKEN_M } from './shared/src/vuex-store/constants/auth'
+import registerInterceptors from './shared/src/interceptors';
 
 registerInterceptors([authApi, coreApi]);
 

@@ -1,6 +1,6 @@
 import Router from 'vue-router';
-import store from './client-shared/src/vuex-store';
-import {IS_AUTHED_G as IS_AUTHED_G } from './client-shared/src/vuex-store/constants/auth';
+import store from './shared/src/vuex-store';
+import {IS_AUTHED_G as IS_AUTHED_G } from './shared/src/vuex-store/constants/auth';
 
 import Login from './views/Login.vue';
 import Register from './views/Register.vue';

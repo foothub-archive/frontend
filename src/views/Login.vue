@@ -24,7 +24,7 @@
 
 <script>
 import { homeRoute } from '../router';
-import { LOGIN_A as LOGIN_A } from '../client-shared/src/vuex-store/constants/auth';
+import { LOGIN_A as LOGIN_A } from '../shared/src/vuex-store/constants/auth';
 
 export default {
   name: 'Login',

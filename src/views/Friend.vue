@@ -12,7 +12,7 @@
 <script>
 import {
   GET_A as GET_FRIEND_A,
-} from '../client-shared/src/vuex-store/constants/friends'
+} from '../shared/src/vuex-store/constants/friends'
 import { friendsRoute } from '../router';
 
 export default {

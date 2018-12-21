@@ -37,13 +37,13 @@
 import {
   LOADED_G as LOADED_USER_G,
   GET_A as GET_USER_A
-} from '../client-shared/src/vuex-store/constants/user';
+} from '../shared/src/vuex-store/constants/user';
 import {
   LOADED_G as LOADED_PROFILE_G,
   NAME_M as PROFILE_NAME_M,
   GET_A as GET_PROFILE_A,
   PUT_A as PUT_PROFILE_A,
-} from '../client-shared/src/vuex-store/constants/me';
+} from '../shared/src/vuex-store/constants/me';
 
 export default {
   name: 'Home',
