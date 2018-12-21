@@ -13,14 +13,17 @@
 
 <script>
 import { loginRoute } from '../router';
-import { LOGOUT_A as LOGOUT_A } from '../store/constants/auth';
+import { LOGOUT_A as LOGOUT_A } from '../client-shared/src/vuex-store/constants/auth';
 
 export default {
   name: 'Home',
   methods: {
     logout() {
       this.$store.dispatch(LOGOUT_A)
-        .then(() => { this.$router.push({ name: loginRoute.name }); })
+        .then(() => {
+          localStorage.removeItem('user-token');
+          this.$router.push({ name: loginRoute.name });
+        })
         .catch(() => {});
     },
   },

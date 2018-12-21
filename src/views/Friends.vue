@@ -93,7 +93,7 @@ import {
   CURRENT_M as CURRENT_M,
   DELETE_A as DELETE_A,
   LIST_A as LIST_A,
-} from '../store/constants/friends';
+} from '../client-shared/src/vuex-store/constants/friends';
 import { friendRoute } from '@/router';
 
 export default {

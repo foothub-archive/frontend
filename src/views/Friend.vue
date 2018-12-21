@@ -12,8 +12,8 @@
 <script>
 import {
   GET_A as GET_FRIEND_A,
-} from '../store/constants/friends'
-import { friendsRoute } from '@/router';
+} from '../client-shared/src/vuex-store/constants/friends'
+import { friendsRoute } from '../router';
 
 export default {
   name: 'Friend',

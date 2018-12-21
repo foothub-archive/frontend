@@ -24,7 +24,7 @@
 
 <script>
 import { homeRoute } from '../router';
-import { LOGIN_A as LOGIN_A } from '../store/constants/auth';
+import { LOGIN_A as LOGIN_A } from '../client-shared/src/vuex-store/constants/auth';
 
 export default {
   name: 'Login',
@@ -49,7 +49,10 @@ export default {
     login() {
       const { username, password } = this;
       this.$store.dispatch(LOGIN_A, { username, password })
-        .then(() => { this.$router.push({ name: this.nextUrlName }); })
+        .then((resp) => {
+          localStorage.setItem('user-token', resp.data.token);
+          this.$router.push({ name: this.nextUrlName });
+        })
         .catch(() => {});
     },
   },

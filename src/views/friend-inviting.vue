@@ -62,7 +62,7 @@ import {
   CURRENT_M as CURRENT_M,
   DELETE_A as DELETE_A,
   LIST_A as LIST_A,
-} from '../store/constants/friend-inviting';
+} from '../client-shared/src/vuex-store/constants/friend-inviting';
 
 export default {
   name: 'FriendInvites',
